@@ -20,6 +20,14 @@
         "source": "C:\\Users\\HoRay\\Desktop\\Blip\\Blip\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services\\6.1.71\\res\\drawable-tvdpi\\ic_plusone_medium_off_client.png"
     },
     {
+        "merged": "C:\\Users\\HoRay\\Desktop\\Unity Projects\\blip-android\\Blip\\build\\intermediates\\res\\merged\\debug\\drawable-tvdpi-v4\\ic_plusone_small_off_client.png",
+        "source": "C:\\Users\\HoRay\\Desktop\\Unity Projects\\blip-android\\Blip\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services\\6.1.71\\res\\drawable-tvdpi\\ic_plusone_small_off_client.png"
+    },
+    {
+        "merged": "C:\\Users\\HoRay\\Desktop\\Unity Projects\\blip-android\\Blip\\build\\intermediates\\res\\merged\\debug\\drawable-tvdpi-v4\\ic_plusone_standard_off_client.png",
+        "source": "C:\\Users\\HoRay\\Desktop\\Unity Projects\\blip-android\\Blip\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services\\6.1.71\\res\\drawable-tvdpi\\ic_plusone_standard_off_client.png"
+    },
+    {
         "merged": "C:\\Users\\HoRay\\Desktop\\Blip\\Blip\\build\\intermediates\\res\\merged\\debug\\drawable-tvdpi-v4\\ic_plusone_tall_off_client.png",
         "source": "C:\\Users\\HoRay\\Desktop\\Blip\\Blip\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services\\6.1.71\\res\\drawable-tvdpi\\ic_plusone_tall_off_client.png"
     },
@@ -40,8 +48,16 @@
         "source": "C:\\Users\\HoRay\\Desktop\\geofire-java-master\\examples\\SFVehicles\\Blip\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services\\6.1.71\\res\\drawable-tvdpi\\ic_plusone_standard_off_client.png"
     },
     {
+        "merged": "C:\\Users\\HoRay\\Desktop\\Unity Projects\\blip-android\\Blip\\build\\intermediates\\res\\merged\\debug\\drawable-tvdpi-v4\\ic_plusone_medium_off_client.png",
+        "source": "C:\\Users\\HoRay\\Desktop\\Unity Projects\\blip-android\\Blip\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services\\6.1.71\\res\\drawable-tvdpi\\ic_plusone_medium_off_client.png"
+    },
+    {
         "merged": "C:\\Users\\HoRay\\Desktop\\geofire-java-master\\examples\\SFVehicles\\SF Vehicles\\build\\intermediates\\res\\merged\\debug\\drawable-tvdpi-v4\\ic_plusone_tall_off_client.png",
         "source": "C:\\Users\\HoRay\\Desktop\\geofire-java-master\\examples\\SFVehicles\\SF Vehicles\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services\\6.1.71\\res\\drawable-tvdpi\\ic_plusone_tall_off_client.png"
+    },
+    {
+        "merged": "C:\\Users\\HoRay\\Desktop\\Unity Projects\\blip-android\\Blip\\build\\intermediates\\res\\merged\\debug\\drawable-tvdpi-v4\\ic_plusone_tall_off_client.png",
+        "source": "C:\\Users\\HoRay\\Desktop\\Unity Projects\\blip-android\\Blip\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services\\6.1.71\\res\\drawable-tvdpi\\ic_plusone_tall_off_client.png"
     },
     {
         "merged": "C:\\Users\\HoRay\\Desktop\\geofire-java-master\\examples\\SFVehicles\\Blip\\build\\intermediates\\res\\merged\\debug\\drawable-tvdpi-v4\\ic_plusone_small_off_client.png",

@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Blip.iml" filepath="$PROJECT_DIR$/Blip.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Blip/Blip-Blip.iml" filepath="$PROJECT_DIR$/Blip/Blip-Blip.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blip-android.iml" filepath="$PROJECT_DIR$/blip-android.iml" />
     </modules>
   </component>
 </project>
