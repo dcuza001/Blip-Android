@@ -2,88 +2,95 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\HoRay\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.2.2\d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b\jackson-core-2.2.2.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b">
-        <dex dex="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\pre-dexed\debug\jackson-core-2.2.2_a33639d2b96b251276eabb512ec47ce577b399a5.jar" />
+        jar="C:\Users\Ryota\Documents\AndroidStudio\Login\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\Login\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.1.1_bb68173eb898b39a53ee218eeee5c7a5bd70b51e\classes.dex" />
     </item>
     <item
-        jar="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.1.71\jars\classes.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="0f6d5c1ef2e982c3b7858408e3df389cf5d202da">
-        <dex dex="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-6.1.71_124acbf68add56cf9f472d8afad6e58eee9dd264.jar" />
+        jar="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.1.1_0eaf34bcaa056adea446ec381a32cbe05730d797\classes.dex" />
     </item>
     <item
-        jar="C:\Users\HoRay\.gradle\caches\modules-2\files-2.1\com.firebase\tubesock\0.0.10\ddce2c65136c1de8000f8932d8b7ab16d5d336b9\tubesock-0.0.10.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="ddce2c65136c1de8000f8932d8b7ab16d5d336b9">
-        <dex dex="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\pre-dexed\debug\tubesock-0.0.10_553e90d4c3cee7c6b8ce60a38a28eef25025b2d3.jar" />
+        jar="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="0590d8270b3392a80d3c1ad7b21416ad1eaae766">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_2ae09b1a91f0f4c0aeaf1f8a1c0e07a8ca56ac8e\classes.dex" />
     </item>
     <item
-        jar="C:\Users\HoRay\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-annotations\2.2.2\285cb9c666f0f0f3dd8a1be04e1f457eb7b15113\jackson-annotations-2.2.2.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="285cb9c666f0f0f3dd8a1be04e1f457eb7b15113">
-        <dex dex="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\pre-dexed\debug\jackson-annotations-2.2.2_90e3cb12e16d093e23eba020f8cae8698c6b24ad.jar" />
+        jar="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\libs\firebase-client-android-2.5.2.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="b54cf0400e2248d6c133c7b0a77dea1be09978cc">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\transforms\dex\debug\folders\1000\2\firebase-client-android-2.5.2_e5d4f591033d4736e4a244a34aaf34305269b045\classes.dex" />
     </item>
     <item
-        jar="C:\Users\HoRay\.gradle\caches\modules-2\files-2.1\com.firebase\firebase-client-android\2.0.3\1665cb30372ae93a46d9800adf5751bc48fa202f\firebase-client-android-2.0.3.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="1665cb30372ae93a46d9800adf5751bc48fa202f">
-        <dex dex="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\pre-dexed\debug\firebase-client-android-2.0.3_ba2736951145acd82b2a404f490b6ead66334a0e.jar" />
+        jar="C:\Users\Ryota\Documents\AndroidStudio\Login\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\Login\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.1.1_5f102c98436684c93ac1d31a4afc0d530d17386e\classes.dex" />
     </item>
     <item
-        jar="C:\Users\HoRay\.gradle\caches\modules-2\files-2.1\com.firebase\firebase-client-jvm\2.0.3\81994bbc1bd46454616b733bf31fe4a22018e056\firebase-client-jvm-2.0.3.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="81994bbc1bd46454616b733bf31fe4a22018e056">
-        <dex dex="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\pre-dexed\debug\firebase-client-jvm-2.0.3_bf1e641abebcf4336628dc3ec79a205923f96ad0.jar" />
+        jar="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="0f91078d90181ab645974da11f839964ee2d9b8f">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_517e9f377620c5e166f5b1977559265626d988de\classes.dex" />
     </item>
     <item
-        jar="C:\Users\HoRay\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa">
-        <dex dex="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\pre-dexed\debug\support-annotations-20.0.0_3bc78e1520b8da44dd64c7dc4cdbdb85bfb621ee.jar" />
+        jar="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.1.1_fbf49bc0a571daf4f5f8a6fc2575de513b27e841\classes.dex" />
     </item>
     <item
-        jar="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\jars\libs\internal_impl-20.0.0.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d">
-        <dex dex="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\pre-dexed\debug\internal_impl-20.0.0_543981eaa55df97a4ce38b5f9a726b311a04c76c.jar" />
+        jar="C:\Users\Ryota\Documents\AndroidStudio\Login\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="e9a3f7fc95147de1e0163af88552302c4c65dd45">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\Login\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_03af1d55a931ab23838dd21ec370b5e579b4d014\classes.dex" />
     </item>
     <item
-        jar="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\jars\classes.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="8694693636ab36910c8100ce527c258ff3ebece0">
-        <dex dex="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\pre-dexed\debug\com.android.support-support-v4-20.0.0_eebe067d3f4bd43ee8dce93430b7ed775a5e2cfe.jar" />
+        jar="C:\Users\Ryota\Documents\AndroidStudio\Login\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\Login\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.1.1_1bfb5319b7574c7e223ca573f6a0a90f3e77f602\classes.dex" />
     </item>
     <item
-        jar="C:\Users\HoRay\.gradle\caches\modules-2\files-2.1\com.firebase\geofire\1.1.1\aaddc090eaef03c8ca29baeac71d928fa9caf9d4\geofire-1.1.1.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="aaddc090eaef03c8ca29baeac71d928fa9caf9d4">
-        <dex dex="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\pre-dexed\debug\geofire-1.1.1_ca08e694934a487299efc4afb53d40bdf0e858cf.jar" />
+        jar="C:\Users\Ryota\Documents\AndroidStudio\Login\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="30a69efabd00b180efaa3d20999224ee873ad432">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\Login\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_7b479d9861e830fa15b585ec1e2a6cc32939e4dd\classes.dex" />
     </item>
     <item
-        jar="C:\Users\HoRay\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-databind\2.2.2\3c8f6018eaa72d43b261181e801e6f8676c16ef6\jackson-databind-2.2.2.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="3c8f6018eaa72d43b261181e801e6f8676c16ef6">
-        <dex dex="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\pre-dexed\debug\jackson-databind-2.2.2_452f8e1f018a92f67716822e375b6d289aaa0120.jar" />
+        jar="C:\Users\Ryota\Documents\AndroidStudio\Login\app\libs\firebase-client-android-2.5.2.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="b54cf0400e2248d6c133c7b0a77dea1be09978cc">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\Login\app\build\intermediates\transforms\dex\debug\folders\1000\2\firebase-client-android-2.5.2_088ccb9243401925026e1422e4dfa20d3680d98c\classes.dex" />
     </item>
     <item
-        jar="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\exploded-aar\com.android.support\appcompat-v7\20.0.0\jars\classes.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef">
-        <dex dex="C:\Users\HoRay\Desktop\Unity Projects\blip-android\Blip\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-20.0.0_127c3ffa4c54474a1d1e253f4cc6483b8c56e300.jar" />
+        jar="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.1.1_4b91028d16242218e4b0a2dca1405681288e2efa\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Ryota\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="C:\Users\Ryota\Documents\AndroidStudio\Login\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.1.1_2f968005873c31da8131402ff7777feb93682687\classes.dex" />
     </item>
 
 </items>
