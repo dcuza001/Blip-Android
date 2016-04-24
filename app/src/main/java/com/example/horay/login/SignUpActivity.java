@@ -1,5 +1,6 @@
 package com.example.horay.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
@@ -38,12 +39,13 @@ public class SignUpActivity extends AppCompatActivity{
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Firebase myFirebaseRef = new Firebase("https://radiant-torch-2241.firebaseio.com/");
+                Firebase myFirebaseRef = new Firebase("https://blipster.firebaseio.com/");
                 myFirebaseRef.createUser(emailEditText.getText().toString(), passwordEditText.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
                     @Override
                     public void onSuccess(Map<String, Object> result) {
                         Toast.makeText(SignUpActivity.this, "Account Successfully Created", Toast.LENGTH_SHORT).show();
-
+                        Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
+                        startActivity(intent);
                     }
                     @Override
                     public void onError(FirebaseError firebaseError) {

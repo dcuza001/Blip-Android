@@ -35,7 +35,7 @@ public class Login extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Firebase myFirebaseRef = new Firebase("https://radiant-torch-2241.firebaseio.com/");
+                Firebase myFirebaseRef = new Firebase("https://blipster.firebaseio.com/");
 
                 myFirebaseRef.authWithPassword(usernameEditText.getText().toString(), passwordEditText.getText().toString(), new Firebase.AuthResultHandler() {
                     @Override
@@ -46,6 +46,8 @@ public class Login extends AppCompatActivity {
                         users.child("users").setValue(authData.getUid());
 
 
+                        Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
+                        startActivity(intent);
                         //insert next intent mainly the menu
 
                     }
