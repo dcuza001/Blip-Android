@@ -53,9 +53,6 @@ public class SignUpActivity extends AppCompatActivity{
                         Log.e("Account Creation Error", firebaseError.toString() );
                     }
                 });
-
-
-
             }
         });
 
