@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,6 +28,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback {
     }
 
 
+
     /**
      * Manipulates the Blip_Map once available.
      * This callback is triggered when the Blip_Map is ready to be used.
@@ -44,5 +46,9 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback {
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+    private void makeMarker(){
+        Firebase ref = new Firebase("https://blipster.firebaseio.com/");
+
     }
 }

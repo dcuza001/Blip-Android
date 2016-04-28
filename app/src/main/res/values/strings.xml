@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Blip</string>
     <string name="title_activity_map">Map</string>
+    <string name="title_activity_geofire_map">Map</string>
 </resources>

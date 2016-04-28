@@ -41,10 +41,9 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onAuthenticated(AuthData authData) {
                         Toast.makeText(Login.this, "User ID: " + authData.getUid() + "Provider: " + authData.getProvider(), Toast.LENGTH_SHORT).show();
-                        Firebase users = new Firebase("https://radiant-torch-2241.firebaseio.com/");
+                        Firebase users = new Firebase("https://blipster.firebaseio.com//");
                         //TODO: Where you include the rules/storage for firebase data
                         users.child("users").setValue(authData.getUid());
-
 
                         Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
                         startActivity(intent);
