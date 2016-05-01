@@ -46,7 +46,8 @@ tools:context=".Login">
             android:hint="Username"
             android:padding="15dp"
             android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF" />
+            android:textColorHint="#FFFFFF"
+            android:inputType="textVisiblePassword|textAutoComplete"/>
 
         <EditText
             android:id="@+id/passwordEditText"
@@ -57,7 +58,8 @@ tools:context=".Login">
             android:hint="Password"
             android:padding="15dp"
             android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF" />
+            android:textColorHint="#FFFFFF"
+            android:inputType="textPassword"/>
 
         <Button
             android:id="@+id/loginButton"
