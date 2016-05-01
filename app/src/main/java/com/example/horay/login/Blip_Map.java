@@ -3,6 +3,7 @@ package com.example.horay.login;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -29,13 +30,19 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback {
+public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener  {
 
     private GoogleMap mMap;
+    private Circle searchCircle;
+    private int radiusValue = 100;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,15 +86,45 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback {
         String bestProvider = locationManager.getBestProvider(criteria, true);
         Location location = locationManager.getLastKnownLocation(bestProvider);
 
-        LatLng latLngCenter = new LatLng(location.getLatitude(), location.getLongitude());
 
-        //set default camera zoom
+        LatLng latLngCenter = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(latLngCenter , 16) );
+
+
+        this.searchCircle = this.mMap.addCircle(new CircleOptions().center(latLngCenter).radius(radiusValue));
+        this.searchCircle.setCenter(latLngCenter);
+        this.searchCircle.setFillColor(Color.argb(66, 255, 0, 255));
+        this.searchCircle.setStrokeColor(Color.argb(66, 0, 0, 0));
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,1, (LocationListener) this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, (LocationListener) this);
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLngCenter));
 
 //        // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+    }
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+        
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }
