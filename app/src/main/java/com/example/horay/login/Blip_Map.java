@@ -89,12 +89,12 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         LatLng latLngCenter = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(latLngCenter , 16) );
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
-
-        this.searchCircle = this.mMap.addCircle(new CircleOptions().center(latLngCenter).radius(radiusValue));
-        this.searchCircle.setCenter(latLngCenter);
-        this.searchCircle.setFillColor(Color.argb(66, 255, 0, 255));
-        this.searchCircle.setStrokeColor(Color.argb(66, 0, 0, 0));
+        searchCircle = this.mMap.addCircle(new CircleOptions().center(latLngCenter).radius(radiusValue));
+        searchCircle.setCenter(latLngCenter);
+        searchCircle.setFillColor(Color.argb(66, 255, 0, 255));
+        searchCircle.setStrokeColor(Color.argb(66, 0, 0, 0));
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,1, (LocationListener) this);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, (LocationListener) this);
@@ -110,7 +110,15 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     @Override
     public void onLocationChanged(Location location) {
-        
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        LatLng center = new LatLng(latitude, longitude);
+        //map.addMarker(new MarkerOptions().position(center));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
+        //map.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+        this.searchCircle.setCenter(center);
+        this.searchCircle.setRadius(radiusValue);
     }
 
     @Override
