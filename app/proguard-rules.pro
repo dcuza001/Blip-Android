@@ -18,3 +18,4 @@
 
 -keep class my.outer.Class$MyInnerClass
 -keepattributes InnerClasses
+-keepattributes EnclosingMethod
