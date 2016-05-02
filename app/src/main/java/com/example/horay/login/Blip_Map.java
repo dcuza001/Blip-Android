@@ -39,15 +39,48 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener  {
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+
+class Blip {
+
+    public String owner;
+    public String comment;
+    public double latitude;
+    public double longitude;
+    public String date;
+    public String group = "default";
+    public String type = "default";
+
+    public Blip(String username, double latitude, double longitude, String comment){
+        this.owner = "ryocsaito@gmail.com";
+        this.latitude = latitude;
+        this.longitude = longitude;
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+
+        this.date = (dateFormat.format(date));
+        this.comment = comment;
+    }
+}
+
+public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
     private Circle searchCircle;
     private int radiusValue = 100;
+
     FloatingActionButton pinButton;
     Location location;
+
     Firebase ref = new Firebase("https://blipster.firebaseio.com/");
 
+    private Map<String,Marker> markers;
 
 
     @Override
@@ -60,33 +93,17 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         pinButton = (FloatingActionButton) findViewById(R.id.addPin);
+        Firebase.setAndroidContext(this);
 
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
         mMap.setMyLocationEnabled(true);
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         //options to update quicker
@@ -107,18 +124,17 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,1, (LocationListener) this);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, (LocationListener) this);
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLngCenter));
-
-//        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
+        this.markers = new HashMap<String, Marker>();
     }
 
     public void addMarker(View view) {
         onLocationChanged(location);
-        Firebase userRef = ref.child("ryocsaito@gmail.com");
+        Firebase userRef = ref.child("blips");
+        Blip newMarker = new Blip("ryocsaito@gmail.com",location.getLatitude(), location.getLongitude(), "hiii" );
+        userRef.push().setValue(newMarker);
+    }
+
+    public void loadMarkers(){
 
     }
 
@@ -127,15 +143,10 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng center = new LatLng(latitude, longitude);
-        //map.addMarker(new MarkerOptions().position(center));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
-        //map.animateCamera(CameraUpdateFactory.zoomTo(15));
-
         this.searchCircle.setCenter(center);
         this.searchCircle.setRadius(radiusValue);
     }
-
-
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -151,6 +162,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     public void onProviderDisabled(String provider) {
 
     }
-
-
 }
+
+
