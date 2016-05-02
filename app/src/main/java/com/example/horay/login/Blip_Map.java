@@ -21,12 +21,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -40,32 +46,45 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 
 
 class Blip {
 
     public String owner;
     public String comment;
-    public double latitude;
-    public double longitude;
-    public String date;
+    public double x;
+    public double y;
     public String group = "default";
     public String type = "default";
+    public String ID =  UUID.randomUUID().toString();
 
-    public Blip(String username, double latitude, double longitude, String comment){
+
+    public Blip(String username, double x, double y, String comment){
         this.owner = "ryocsaito@gmail.com";
-        this.latitude = latitude;
-        this.longitude = longitude;
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-
-        this.date = (dateFormat.format(date));
+        this.x = x;
+        this.y = y;
         this.comment = comment;
+    }
+
+    //Introducing the dummy constructor
+    public Blip() {
+    }
+
+//    private String findDate() {
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//        Date date = new Date();
+//        return dateFormat.format(date);
+//    }
+
+    public void printLocation(Context context){
+        Toast.makeText(context, "X: " + x + " Y: " + y, Toast.LENGTH_SHORT).show();
     }
 }
 
@@ -80,8 +99,36 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     Firebase ref = new Firebase("https://blipster.firebaseio.com/");
 
-    private Map<String,Marker> markers;
+    private Map<String,LatLng> markers;
 
+    public double CalculationByDistance(LatLng StartP, LatLng EndP) {
+        int Radius = 6371;// radius of earth in Km
+        double lat1 = StartP.latitude;
+        double lat2 = EndP.latitude;
+        double lon1 = StartP.longitude;
+        double lon2 = EndP.longitude;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1))
+                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
+                * Math.sin(dLon / 2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        double valueResult = Radius * c;
+        double km = valueResult / 1;
+        DecimalFormat newFormat = new DecimalFormat("####");
+        int kmInDec = Integer.valueOf(newFormat.format(km));
+        double meter = valueResult % 1000;
+        int meterInDec = Integer.valueOf(newFormat.format(meter));
+        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
+                + " Meter   " + meterInDec);
+        return Radius * c;
+    }
+
+    private void printPosition(LatLng loc){
+        Toast.makeText(getApplicationContext(), "X: " + loc.latitude + " Y: " + loc.longitude, Toast.LENGTH_SHORT).show();
+        Log.d("Location", "X: " + loc.latitude + " Y: " + loc.longitude );
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +141,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         mapFragment.getMapAsync(this);
         pinButton = (FloatingActionButton) findViewById(R.id.addPin);
         Firebase.setAndroidContext(this);
+        markers = new HashMap<String, LatLng>();
 
     }
 
@@ -106,9 +154,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         mMap.setMyLocationEnabled(true);
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        //options to update quicker
         Criteria criteria = new Criteria();
-        //update speed
         String bestProvider = locationManager.getBestProvider(criteria, true);
         location = locationManager.getLastKnownLocation(bestProvider);
 
@@ -124,27 +170,69 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,1, (LocationListener) this);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, (LocationListener) this);
-        this.markers = new HashMap<String, Marker>();
+
+        findMarkers();
     }
 
     public void addMarker(View view) {
-        onLocationChanged(location);
         Firebase userRef = ref.child("blips");
-        Blip newMarker = new Blip("ryocsaito@gmail.com",location.getLatitude(), location.getLongitude(), "hiii" );
+        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+        Blip newMarker = new Blip("ryocsaito@gmail.com", loc.latitude, loc.longitude , "hiii" );
         userRef.push().setValue(newMarker);
     }
 
-    private void findMarkers(){
+    private void findMarkers() {
+        ref.child("blips").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot usersSnapshot) {
+                markers.clear();
 
+                for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                    Blip b = userSnapshot.getValue(Blip.class);
+                    b.printLocation(getApplicationContext());
+                    LatLng pos = new LatLng(b.x, b.y);
+                    markers.put(b.ID, pos);
+
+                    mMap.addMarker(new MarkerOptions()
+                            .position(pos)
+                            .title(b.ID));
+
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) { }
+        });
     }
-    public void loadMarkers(View view){
+
+
+    private void loadMarkers(){
+        //markers = new HashMap<String, LatLng>();
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng center = new LatLng(latitude, longitude);
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
         this.searchCircle.setCenter(center);
         this.searchCircle.setRadius(radiusValue);
+        findMarkers();
     }
+
+
+    public void loadButton(View view){
+        loadMarkers();
+    }
+
+    public void centerCamera(View view){
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        CameraUpdate center=  CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude));
+        CameraUpdate zoom=CameraUpdateFactory.zoomTo(16);
+
+        mMap.moveCamera(center);
+        mMap.animateCamera(zoom);
+    }
+
+
 
 
 //
