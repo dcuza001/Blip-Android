@@ -12,7 +12,7 @@
         jar="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="af4bf5e5fdaa8e8adda4d4dd83bb857adcb1fa55">
+        sha1="3d3452424c981886d4015613f3a47739c2f865a0">
         <dex dex="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_2ae09b1a91f0f4c0aeaf1f8a1c0e07a8ca56ac8e\classes.dex" />
     </item>
     <item
@@ -47,7 +47,7 @@
         jar="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="2e2b6527251e0badb89ed6f61efaede26a8085a0">
+        sha1="67541f927f8086b6b9ad1a53ddf51287d16a9075">
         <dex dex="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_517e9f377620c5e166f5b1977559265626d988de\classes.dex" />
     </item>
     <item

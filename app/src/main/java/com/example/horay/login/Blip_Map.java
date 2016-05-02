@@ -134,33 +134,45 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         userRef.push().setValue(newMarker);
     }
 
-    public void loadMarkers(){
+    private void findMarkers(){
 
     }
-
-    @Override
-    public void onLocationChanged(Location location) {
+    public void loadMarkers(View view){
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng center = new LatLng(latitude, longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
         this.searchCircle.setCenter(center);
         this.searchCircle.setRadius(radiusValue);
     }
 
+
+//
+//    @Override
+//    public void onLocationChanged(Location location) {
+//        double latitude = location.getLatitude();
+//        double longitude = location.getLongitude();
+//        LatLng center = new LatLng(latitude, longitude);
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
+//        this.searchCircle.setCenter(center);
+//        this.searchCircle.setRadius(radiusValue);
+//    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-
     }
 }
 
