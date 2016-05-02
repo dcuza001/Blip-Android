@@ -29,6 +29,7 @@ import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.BooleanResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Status;
@@ -92,38 +93,15 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     private GoogleMap mMap;
     private Circle searchCircle;
-    private int radiusValue = 100;
+    private int radiusValue = 600;
 
     FloatingActionButton pinButton;
     Location location;
 
     Firebase ref = new Firebase("https://blipster.firebaseio.com/");
 
-    private Map<String,LatLng> markers;
+    private Map<String,Marker> markers;
 
-    public double CalculationByDistance(LatLng StartP, LatLng EndP) {
-        int Radius = 6371;// radius of earth in Km
-        double lat1 = StartP.latitude;
-        double lat2 = EndP.latitude;
-        double lon1 = StartP.longitude;
-        double lon2 = EndP.longitude;
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1))
-                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
-                * Math.sin(dLon / 2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        double valueResult = Radius * c;
-        double km = valueResult / 1;
-        DecimalFormat newFormat = new DecimalFormat("####");
-        int kmInDec = Integer.valueOf(newFormat.format(km));
-        double meter = valueResult % 1000;
-        int meterInDec = Integer.valueOf(newFormat.format(meter));
-        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
-                + " Meter   " + meterInDec);
-        return Radius * c;
-    }
 
     private void printPosition(LatLng loc){
         Toast.makeText(getApplicationContext(), "X: " + loc.latitude + " Y: " + loc.longitude, Toast.LENGTH_SHORT).show();
@@ -141,7 +119,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         mapFragment.getMapAsync(this);
         pinButton = (FloatingActionButton) findViewById(R.id.addPin);
         Firebase.setAndroidContext(this);
-        markers = new HashMap<String, LatLng>();
+        markers = new HashMap<String, Marker>();
 
     }
 
@@ -181,6 +159,19 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         userRef.push().setValue(newMarker);
     }
 
+    private Boolean insideCircle(LatLng pos, Circle circle){
+        float[] distance = new float[2];
+        Location.distanceBetween( circle.getCenter().latitude,circle.getCenter().longitude,
+                pos.latitude, pos.longitude, distance);
+
+        if( distance[0] > circle.getRadius() ) {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
     private void findMarkers() {
         ref.child("blips").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -189,14 +180,14 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
                 for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
                     Blip b = userSnapshot.getValue(Blip.class);
-                    b.printLocation(getApplicationContext());
                     LatLng pos = new LatLng(b.x, b.y);
-                    markers.put(b.ID, pos);
-
-                    mMap.addMarker(new MarkerOptions()
-                            .position(pos)
-                            .title(b.ID));
-
+                    if( insideCircle(pos, searchCircle)) {
+                        b.printLocation(getApplicationContext());
+                        Marker m = mMap.addMarker(new MarkerOptions()
+                                .position(pos)
+                                .title(b.ID));
+                        markers.put(b.ID, m);
+                    }
                 }
             }
 
