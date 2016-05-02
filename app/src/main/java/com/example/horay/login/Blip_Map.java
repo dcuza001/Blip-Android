@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
@@ -41,17 +44,23 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     private GoogleMap mMap;
     private Circle searchCircle;
     private int radiusValue = 100;
+    FloatingActionButton pinButton;
+    Location location;
+    Firebase ref = new Firebase("https://blipster.firebaseio.com/");
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        pinButton = (FloatingActionButton) findViewById(R.id.addPin);
+
     }
 
 
@@ -84,7 +93,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         Criteria criteria = new Criteria();
         //update speed
         String bestProvider = locationManager.getBestProvider(criteria, true);
-        Location location = locationManager.getLastKnownLocation(bestProvider);
+        location = locationManager.getLastKnownLocation(bestProvider);
 
 
         LatLng latLngCenter = new LatLng(location.getLatitude(), location.getLongitude());
@@ -107,6 +116,11 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     }
 
+    public void addMarker(View view) {
+        onLocationChanged(location);
+        Firebase userRef = ref.child("ryocsaito@gmail.com");
+
+    }
 
     @Override
     public void onLocationChanged(Location location) {
@@ -120,6 +134,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         this.searchCircle.setCenter(center);
         this.searchCircle.setRadius(radiusValue);
     }
+
+
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -135,4 +151,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     public void onProviderDisabled(String provider) {
 
     }
+
+
 }

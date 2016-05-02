@@ -25,6 +25,7 @@
         android:src="@android:drawable/ic_input_add"
         android:layout_margin="20dp"
         android:layout_alignParentBottom="true"
+        android:onClick="addMarker"
         android:layout_alignParentEnd="true" />
 
     <android.support.design.widget.FloatingActionButton
