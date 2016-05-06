@@ -101,6 +101,8 @@
       <file leaf-file-name="DrawerActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/horay/login/DrawerActivity.java">
           <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.43820226">
+              <caret line="106" column="48" selection-start-line="106" selection-start-column="48" selection-end-line="106" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1080#1348#0" expanded="true" />
@@ -1870,9 +1872,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/horay/login/LogoutFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/activity_drawer_drawer.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_drawer.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/horay/login/DrawerActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/horay/login/Login.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/nav_header_drawer.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/horay/login/DrawerActivity.java" />
       </list>
     </option>
   </component>
@@ -2777,6 +2779,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/horay/login/DrawerActivity.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.43820226">
+          <caret line="106" column="48" selection-start-line="106" selection-start-column="48" selection-end-line="106" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1080#1348#0" expanded="true" />
