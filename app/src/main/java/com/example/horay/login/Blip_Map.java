@@ -10,13 +10,18 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -102,10 +107,15 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     private Map<String,Marker> markers;
 
+    DrawerLayout mDrawerLayout;
 
     private void printPosition(LatLng loc){
         Toast.makeText(getApplicationContext(), "X: " + loc.latitude + " Y: " + loc.longitude, Toast.LENGTH_SHORT).show();
         Log.d("Location", "X: " + loc.latitude + " Y: " + loc.longitude );
+    }
+
+    private void setDrawer(){
+
     }
 
     @Override
@@ -120,6 +130,22 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         pinButton = (FloatingActionButton) findViewById(R.id.addPin);
         Firebase.setAndroidContext(this);
         markers = new HashMap<String, Marker>();
+
+        // Daniel's Nav Drawer Code
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        if (drawer != null) {
+//            drawer.setDrawerListener(toggle);
+//        }
+//        toggle.syncState();
+//
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
     }
 
@@ -148,6 +174,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,1, (LocationListener) this);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, (LocationListener) this);
+
 
         findMarkers();
     }
@@ -221,6 +248,11 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         mMap.moveCamera(center);
         mMap.animateCamera(zoom);
+    }
+
+    public void openDrawer(View v){
+        mDrawerLayout.openDrawer(Gravity.LEFT); //Edit Gravity.End need API 14
+
     }
 
 
