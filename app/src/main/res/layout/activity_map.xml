@@ -71,6 +71,14 @@
 
 
     </RelativeLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/fragment_blank"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
     </FrameLayout>
 
     <android.support.design.widget.NavigationView

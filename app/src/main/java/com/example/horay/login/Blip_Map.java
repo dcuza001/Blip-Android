@@ -255,9 +255,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     }
 
-
-
-
 //
 //    @Override
 //    public void onLocationChanged(Location location) {
