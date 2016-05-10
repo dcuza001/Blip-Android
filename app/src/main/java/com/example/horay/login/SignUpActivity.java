@@ -44,8 +44,9 @@ public class SignUpActivity extends AppCompatActivity{
                     @Override
                     public void onSuccess(Map<String, Object> result) {
                         Toast.makeText(SignUpActivity.this, "Account Successfully Created", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
-                        startActivity(intent);
+                        finish();
+                        /*Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
+                        startActivity(intent);*/
                     }
                     @Override
                     public void onError(FirebaseError firebaseError) {

@@ -6,22 +6,70 @@
     android:orientation="vertical"
     tools:context=".SignUpActivity">
 
-    <EditText
-        android:id="@+id/emailEditText"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp"
+        android:text="Full Name"
+        android:textColor="#000000" />
+
+    <EditText
+        android:id="@+id/nameEditText"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:hint="John Doe"
         />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp"
+        android:text="Email Address"
+        android:textColor="#000000" />
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:hint="sample@sample.com"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp"
+        android:text="Password"
+        android:textColor="#000000" />
+
     <EditText
         android:id="@+id/passwordEditText"
+        android:singleLine="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <!--EditText
-        android:id="@+id/fullName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" /-->
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:inputType="textPassword"
+        android:hint="Password"
+        />
+
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="#FFFFFF"
+        android:textColor="#000000"
         android:text="Sign Up"/>
 </LinearLayout>

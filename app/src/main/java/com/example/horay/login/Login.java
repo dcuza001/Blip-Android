@@ -52,8 +52,8 @@ public class Login extends AppCompatActivity {
                         //TODO: Where you include the rules/storage for firebase data
                         users.child("users").setValue(authData.getUid());
 
-                        //Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
-                        Intent intent = new Intent(getApplicationContext(), DrawerActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
+                        //Intent intent = new Intent(getApplicationContext(), DrawerActivity.class);
                         startActivity(intent);
                         //insert next intent mainly the menu
 
