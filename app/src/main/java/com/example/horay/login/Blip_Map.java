@@ -124,7 +124,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     DrawerLayout mDrawerLayout;
 
-
     private void printPosition(LatLng loc){
         Toast.makeText(getApplicationContext(), "X: " + loc.latitude + " Y: " + loc.longitude, Toast.LENGTH_SHORT).show();
         Log.d("Location", "X: " + loc.latitude + " Y: " + loc.longitude );
@@ -192,41 +191,16 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        mMap.setMyLocationEnabled(true);
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String bestProvider = locationManager.getBestProvider(criteria, true);
-        location = locationManager.getLastKnownLocation(bestProvider);
-
-
-        LatLng latLngCenter = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(latLngCenter , 16) );
-        mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-        searchCircle = this.mMap.addCircle(new CircleOptions().center(latLngCenter).radius(radiusValue));
-        searchCircle.setCenter(latLngCenter);
-        searchCircle.setFillColor(Color.argb(66, 255, 0, 255));
-        searchCircle.setStrokeColor(Color.argb(66, 0, 0, 0));
-
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,1, (LocationListener) this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, (LocationListener) this);
-
-
-        findMarkers();
-    }
 
     public void addMarker(View view) {
-        Firebase userRef = ref.child("blips");
-        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-        Blip newMarker = new Blip("ryocsaito@gmail.com", loc.latitude, loc.longitude , "hiii" );
-        userRef.push().setValue(newMarker);
+
+
+        // Let Fragment add pin instead
+
+//        Firebase userRef = ref.child("blips");
+//        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+//        Blip newMarker = new Blip("ryocsaito@gmail.com", loc.latitude, loc.longitude , "hiii" );
+//        userRef.push().setValue(newMarker);
     }
 
     private Boolean insideCircle(LatLng pos, Circle circle){
@@ -277,6 +251,39 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         this.searchCircle.setRadius(radiusValue);
         findMarkers();
     }
+
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        mMap.setMyLocationEnabled(true);
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String bestProvider = locationManager.getBestProvider(criteria, true);
+        location = locationManager.getLastKnownLocation(bestProvider);
+
+
+        LatLng latLngCenter = new LatLng(location.getLatitude(), location.getLongitude());
+        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(latLngCenter , 16) );
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        searchCircle = this.mMap.addCircle(new CircleOptions().center(latLngCenter).radius(radiusValue));
+        searchCircle.setCenter(latLngCenter);
+        searchCircle.setFillColor(Color.argb(66, 255, 0, 255));
+        searchCircle.setStrokeColor(Color.argb(66, 0, 0, 0));
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,1, (LocationListener) this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, (LocationListener) this);
+
+
+        findMarkers();
+    }
+
 
 
     public void loadButton(View view){
