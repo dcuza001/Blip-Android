@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -124,6 +125,9 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     DrawerLayout mDrawerLayout;
 
+    //multi
+    MultiSelectionSpinner spinner1;
+
 
     private void printPosition(LatLng loc){
         Toast.makeText(getApplicationContext(), "X: " + loc.latitude + " Y: " + loc.longitude, Toast.LENGTH_SHORT).show();
@@ -172,7 +176,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
         //Add categories here
-        categories.add("All Blips");
         categories.add("Automobile");
         categories.add("Business Services");
         categories.add("Computers");
@@ -189,6 +192,20 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
+
+
+        //Multi Spinner
+        spinner1 = (MultiSelectionSpinner) findViewById(R.id.mySpinner1);
+        spinner1.setItems(categories);
+        ImageButton bt = (ImageButton) findViewById(R.id.getSelected);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s = spinner1.getSelectedItemsAsString();
+                Log.e("getSelected", s);
+
+            }
+        });
 
     }
 

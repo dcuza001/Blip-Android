@@ -101,6 +101,39 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/spinner_background"
+            android:orientation="horizontal"
+            >
+
+            <ImageButton
+                android:id="@+id/getSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@mipmap/search"
+                />
+
+            <com.example.horay.login.MultiSelectionSpinner
+                android:id="@+id/mySpinner1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/getSelected"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:spinnerMode="dropdown" />
+
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <include
