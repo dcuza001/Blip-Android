@@ -1,6 +1,7 @@
 package com.example.horay.login;
 
 import android.Manifest;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -13,8 +14,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -30,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -111,6 +115,7 @@ class Blip {
 
 public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener, OnItemSelectedListener {
 
+    private static final int CONTENT_VIEW_ID = 10101010;
     private GoogleMap mMap;
     private Circle searchCircle;
     private int radiusValue = 600;
@@ -123,6 +128,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     private Map<String,Marker> markers;
 
     DrawerLayout mDrawerLayout;
+
+    Bundle savedInstanceState;
 
     private void printPosition(LatLng loc){
         Toast.makeText(getApplicationContext(), "X: " + loc.latitude + " Y: " + loc.longitude, Toast.LENGTH_SHORT).show();
@@ -195,7 +202,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     public void addMarker(View view) {
 
 
-        // Let Fragment add pin instead
 
 //        Firebase userRef = ref.child("blips");
 //        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
