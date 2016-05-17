@@ -1,7 +1,9 @@
 package com.example.horay.login;
 
 import android.Manifest;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,8 +15,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -30,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -76,41 +81,13 @@ import java.util.Map;
 import java.util.UUID;
 
 
-class Blip {
-
-    public String owner;
-    public String comment;
-    public double x;
-    public double y;
-    public String group = "default";
-    public String type = "default";
-    public String ID =  UUID.randomUUID().toString();
 
 
-    public Blip(String username, double x, double y, String comment){
-        this.owner = "ryocsaito@gmail.com";
-        this.x = x;
-        this.y = y;
-        this.comment = comment;
-    }
 
-    //Introducing the dummy constructor
-    public Blip() {
-    }
-
-//    private String findDate() {
-//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//        Date date = new Date();
-//        return dateFormat.format(date);
-//    }
-
-    public void printLocation(Context context){
-        Toast.makeText(context, "X: " + x + " Y: " + y, Toast.LENGTH_SHORT).show();
-    }
-}
 
 public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener, OnItemSelectedListener {
 
+    private static final int CONTENT_VIEW_ID = 10101010;
     private GoogleMap mMap;
     private Circle searchCircle;
     private int radiusValue = 600;
@@ -124,6 +101,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     DrawerLayout mDrawerLayout;
 
+    Bundle savedInstanceState;
+
     private void printPosition(LatLng loc){
         Toast.makeText(getApplicationContext(), "X: " + loc.latitude + " Y: " + loc.longitude, Toast.LENGTH_SHORT).show();
         Log.d("Location", "X: " + loc.latitude + " Y: " + loc.longitude );
@@ -132,6 +111,10 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     private void setDrawer(){
 
     }
+
+//    public void printLocation(Context context){
+//        Toast.makeText(context, "X: " + x + " Y: " + y, Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,20 +128,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         pinButton = (FloatingActionButton) findViewById(R.id.addPin);
         Firebase.setAndroidContext(this);
         markers = new HashMap<String, Marker>();
-
-        // Daniel's Nav Drawer Code
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        if (drawer != null) {
-//            drawer.setDrawerListener(toggle);
-//        }
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -194,8 +163,14 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     public void addMarker(View view) {
 
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
 
-        // Let Fragment add pin instead
+        Intent intent = new Intent(getApplicationContext(), AddBlip.class);
+        intent.putExtra("Lat", latitude);
+        intent.putExtra("Long", longitude);
+        startActivity(intent);
+
 
 //        Firebase userRef = ref.child("blips");
 //        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
@@ -226,7 +201,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                     Blip b = userSnapshot.getValue(Blip.class);
                     LatLng pos = new LatLng(b.x, b.y);
                     if( insideCircle(pos, searchCircle)) {
-                        b.printLocation(getApplicationContext());
+                       // b.printLocation(getApplicationContext());
                         Marker m = mMap.addMarker(new MarkerOptions()
                                 .position(pos)
                                 .title(b.ID));
@@ -249,7 +224,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
         this.searchCircle.setCenter(center);
         this.searchCircle.setRadius(radiusValue);
-        findMarkers();
+        //findMarkers();
     }
 
 
