@@ -129,20 +129,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         Firebase.setAndroidContext(this);
         markers = new HashMap<String, Marker>();
 
-        // Daniel's Nav Drawer Code
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        if (drawer != null) {
-//            drawer.setDrawerListener(toggle);
-//        }
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         // Spinner element
@@ -238,7 +224,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
         this.searchCircle.setCenter(center);
         this.searchCircle.setRadius(radiusValue);
-        findMarkers();
+        //findMarkers();
     }
 
 
