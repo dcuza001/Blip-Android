@@ -3,6 +3,7 @@ package com.example.horay.login;
 import android.Manifest;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -80,38 +81,9 @@ import java.util.Map;
 import java.util.UUID;
 
 
-class Blip {
-
-    public String owner;
-    public String comment;
-    public double x;
-    public double y;
-    public String group = "default";
-    public String type = "default";
-    public String ID =  UUID.randomUUID().toString();
 
 
-    public Blip(String username, double x, double y, String comment){
-        this.owner = "ryocsaito@gmail.com";
-        this.x = x;
-        this.y = y;
-        this.comment = comment;
-    }
 
-    //Introducing the dummy constructor
-    public Blip() {
-    }
-
-//    private String findDate() {
-//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//        Date date = new Date();
-//        return dateFormat.format(date);
-//    }
-
-    public void printLocation(Context context){
-        Toast.makeText(context, "X: " + x + " Y: " + y, Toast.LENGTH_SHORT).show();
-    }
-}
 
 public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener, OnItemSelectedListener {
 
@@ -139,6 +111,10 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     private void setDrawer(){
 
     }
+
+//    public void printLocation(Context context){
+//        Toast.makeText(context, "X: " + x + " Y: " + y, Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,6 +177,13 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     public void addMarker(View view) {
 
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        Intent intent = new Intent(getApplicationContext(), AddBlip.class);
+        intent.putExtra("Lat", latitude);
+        intent.putExtra("Long", longitude);
+        startActivity(intent);
 
 
 //        Firebase userRef = ref.child("blips");
@@ -232,7 +215,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                     Blip b = userSnapshot.getValue(Blip.class);
                     LatLng pos = new LatLng(b.x, b.y);
                     if( insideCircle(pos, searchCircle)) {
-                        b.printLocation(getApplicationContext());
+                       // b.printLocation(getApplicationContext());
                         Marker m = mMap.addMarker(new MarkerOptions()
                                 .position(pos)
                                 .title(b.ID));
