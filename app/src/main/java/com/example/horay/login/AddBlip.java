@@ -6,19 +6,25 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.utilities.Base64;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-public class AddBlip extends AppCompatActivity {
+public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     EditText commentText;
     ImageView cameraPic;
     RadioGroup rg;
+    Spinner spinnerTags;
 
     int CAMERA_PIC_REQUEST;
     int color;
@@ -68,6 +74,30 @@ public class AddBlip extends AppCompatActivity {
 
     }
 
+    private void setupSpinner(){
+        spinnerTags.setOnItemSelectedListener( this);
+        // Spinner Drop down elements
+        List<String> categories = new ArrayList<String>();
+        //Add categories here
+        categories.add("Automobile");
+        categories.add("Business Services");
+        categories.add("Computers");
+        categories.add("Education");
+        categories.add("Friends");
+        categories.add("Personal");
+        categories.add("Travel");
+        categories.add("ryocsaito@gmail.com");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinnerTags.setAdapter(dataAdapter);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +110,8 @@ public class AddBlip extends AppCompatActivity {
         commentText = (EditText)findViewById(R.id.commentInput);
         cameraPic = (ImageView)findViewById(R.id.cameraPic);
         rg = (RadioGroup)findViewById(R.id.colorGroup);
+        spinnerTags = (Spinner) findViewById(R.id.spinnerTags);
+        setupSpinner();
 
 
     }
@@ -108,13 +140,21 @@ public class AddBlip extends AppCompatActivity {
         int color = getMarkerColor(rg);
         String imageBase64 = convertImgString(cameraPic);
 
-         //Firebase userRef = ref.child("blips");
-//        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-//        Blip newMarker = new Blip("ryocsaito@gmail.com", loc.latitude, loc.longitude , "hiii" );
-//        userRef.push().setValue(newMarker);
+        Blip b = new Blip("ryocsaito@gmail.com", latitude, longitude, comment, "Default" ,"Default", "Default", imageBase64);
+        Firebase userRef = ref.child("blips_ryota");
+        userRef.push().setValue(b);
 
-
+        this.finish();
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

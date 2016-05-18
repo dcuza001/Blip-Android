@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -79,12 +80,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-
-
-
-
-
 public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener, OnItemSelectedListener {
 
     private static final int CONTENT_VIEW_ID = 10101010;
@@ -101,6 +96,9 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     DrawerLayout mDrawerLayout;
 
+    //multi
+    MultiSelectionSpinner spinner1;
+
     Bundle savedInstanceState;
 
     private void printPosition(LatLng loc){
@@ -109,6 +107,10 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     }
 
     private void setDrawer(){
+
+    }
+
+    private void decodeImage(){
 
     }
 
@@ -140,7 +142,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
         //Add categories here
-        categories.add("All Blips");
         categories.add("Automobile");
         categories.add("Business Services");
         categories.add("Computers");
@@ -148,6 +149,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         categories.add("Friends");
         categories.add("Personal");
         categories.add("Travel");
+        categories.add("ryocsaito@gmail.com");
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
@@ -157,6 +159,26 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
+
+
+        //Multi Spinner
+        spinner1 = (MultiSelectionSpinner) findViewById(R.id.mySpinner1);
+        spinner1.setItems(categories);
+        ImageButton bt = (ImageButton) findViewById(R.id.getSelected);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s = spinner1.getSelectedItemsAsString();
+                Log.e("getSelected", s);
+                List<String> tags = spinner1.getSelectedStrings();
+                if(tags.isEmpty()){
+                    findMarkers();
+                }
+                else{
+                    findMarkers(tags);
+                }
+            }
+        });
 
     }
 
@@ -180,7 +202,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     private Boolean insideCircle(LatLng pos, Circle circle){
         float[] distance = new float[2];
-        Location.distanceBetween( circle.getCenter().latitude,circle.getCenter().longitude,
+        Location.distanceBetween(circle.getCenter().latitude, circle.getCenter().longitude,
                 pos.latitude, pos.longitude, distance);
 
         if( distance[0] > circle.getRadius() ) {
@@ -191,8 +213,63 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         }
     }
 
-    private void findMarkers() {
+    //created a separate function for searching tags
+    private void findMarkers(final List<String> tags) {
+
+
+        mMap.clear();
+        LatLng latLngCenter = new LatLng(location.getLatitude(), location.getLongitude());
+        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(latLngCenter , 16) );
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        searchCircle = this.mMap.addCircle(new CircleOptions().center(latLngCenter).radius(radiusValue));
+        searchCircle.setCenter(latLngCenter);
+        searchCircle.setFillColor(Color.argb(66, 255, 0, 255));
+        searchCircle.setStrokeColor(Color.argb(66, 0, 0, 0));
+
         ref.child("blips").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot usersSnapshot) {
+                markers.clear();
+
+                for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                    Blip b = userSnapshot.getValue(Blip.class);
+                    LatLng pos = new LatLng(b.x, b.y);
+                    if (insideCircle(pos, searchCircle)) {
+
+                        //b.printLocation(getApplicationContext());
+                        //the search function
+                        if (tags.size() > 0) {
+                            for (int i = 0; i < tags.size(); i++) {
+                                String tag = tags.get(i);
+                                String name = b.owner;
+                                if (tag.equals(name)) {
+                                    Marker m = mMap.addMarker(new MarkerOptions()
+                                            .position(pos)
+                                            .title(b.owner));
+                                    markers.put(b.owner, m);
+                                }
+                            }
+
+                        } else {
+                            Marker m = mMap.addMarker(new MarkerOptions()
+                                    .position(pos)
+                                    .title(b.owner));
+                            markers.put(b.owner, m);
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+    }
+
+    private void findMarkers() {
+        ref.child("blips_ryota").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot usersSnapshot) {
                 markers.clear();
@@ -204,8 +281,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                        // b.printLocation(getApplicationContext());
                         Marker m = mMap.addMarker(new MarkerOptions()
                                 .position(pos)
-                                .title(b.ID));
-                        markers.put(b.ID, m);
+                                .title(b.owner));
+                        markers.put(b.owner, m);
                     }
                 }
             }
@@ -215,7 +292,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         });
     }
 
-
     private void loadMarkers(){
         //markers = new HashMap<String, LatLng>();
         double latitude = location.getLatitude();
@@ -224,7 +300,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
         this.searchCircle.setCenter(center);
         this.searchCircle.setRadius(radiusValue);
-        //findMarkers();
+        findMarkers();
     }
 
 
@@ -256,11 +332,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, (LocationListener) this);
 
 
-        findMarkers();
+        loadMarkers();
     }
-
-
-
     public void loadButton(View view){
         loadMarkers();
     }
@@ -316,6 +389,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         // Showing selected spinner item
         Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+
+
     }
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
