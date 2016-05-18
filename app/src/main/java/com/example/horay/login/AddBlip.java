@@ -108,12 +108,11 @@ public class AddBlip extends AppCompatActivity {
         int color = getMarkerColor(rg);
         String imageBase64 = convertImgString(cameraPic);
 
-         //Firebase userRef = ref.child("blips");
-//        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-//        Blip newMarker = new Blip("ryocsaito@gmail.com", loc.latitude, loc.longitude , "hiii" );
-//        userRef.push().setValue(newMarker);
+        Blip b = new Blip("ryocsaito@gmail.com", latitude, longitude, comment, "Default" ,"Default", "Default", imageBase64);
+        Firebase userRef = ref.child("blips_ryota");
+        userRef.push().setValue(b);
 
-
+        this.finish();
     }
 
 

@@ -112,6 +112,10 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     }
 
+    private void decodeImage(){
+
+    }
+
 //    public void printLocation(Context context){
 //        Toast.makeText(context, "X: " + x + " Y: " + y, Toast.LENGTH_SHORT).show();
 //    }
@@ -192,7 +196,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     }
 
     private void findMarkers() {
-        ref.child("blips").addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child("blips_ryota").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot usersSnapshot) {
                 markers.clear();
@@ -224,7 +228,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
         this.searchCircle.setCenter(center);
         this.searchCircle.setRadius(radiusValue);
-        //findMarkers();
+        findMarkers();
     }
 
 
@@ -256,7 +260,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, (LocationListener) this);
 
 
-        findMarkers();
+        loadMarkers();
     }
 
 
