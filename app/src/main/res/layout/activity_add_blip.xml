@@ -84,5 +84,18 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerTags"
+        android:background="@android:color/transparent"
+        android:layout_above="@+id/post_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:spinnerMode="dropdown" />
+
+
+
+
 
 </RelativeLayout>
