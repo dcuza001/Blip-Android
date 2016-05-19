@@ -13,10 +13,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -29,14 +33,18 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
     RadioGroup rg;
     Spinner spinnerTags;
 
+
     int CAMERA_PIC_REQUEST;
     int color;
+
+    String tag = "Default";
 
     double latitude;
     double longitude;
 
     DatabaseReference ref = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://blipster.firebaseio.com/");
+
 
 
     private int getMarkerColor(RadioGroup rg){
@@ -142,11 +150,11 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
 
         //get all fields
         String comment = commentText.getText().toString();
-        String tag;
+        String s = tag;
         int color = getMarkerColor(rg);
         String imageBase64 = convertImgString(cameraPic);
 
-        Blip b = new Blip("ryocsaito@gmail.com", latitude, longitude, comment, "Default" ,"Default", "Default", imageBase64);
+        Blip b = new Blip("ryocsaito@gmail.com", latitude, longitude, comment, s ,"Default", "Default", imageBase64);
         DatabaseReference userRef = ref.child("blips_ryota");
         userRef.push().setValue(b);
 
@@ -154,11 +162,17 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
     }
 
 
+    //Spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // On selecting a spinner item
+        String item = parent.getItemAtPosition(position).toString();
 
+        // Showing selected spinner item
+        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+
+        tag = item;
     }
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
