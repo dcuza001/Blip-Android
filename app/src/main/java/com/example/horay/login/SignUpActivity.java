@@ -3,6 +3,7 @@ package com.example.horay.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -10,8 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Map;
 
@@ -35,27 +41,39 @@ public class SignUpActivity extends AppCompatActivity{
         signUpButton = (Button) findViewById(R.id.signUpButton);
         //fullNameEditText = (EditText) findViewById(R.id.fullName);
 
+
+
         //Email works as long as you include @ and .com
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Firebase myFirebaseRef = new Firebase("https://blipster.firebaseio.com/");
-                myFirebaseRef.createUser(emailEditText.getText().toString(), passwordEditText.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
-                    @Override
-                    public void onSuccess(Map<String, Object> result) {
-                        Toast.makeText(SignUpActivity.this, "Account Successfully Created", Toast.LENGTH_SHORT).show();
-                        finish();
-                        /*Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
-                        startActivity(intent);*/
-                    }
-                    @Override
-                    public void onError(FirebaseError firebaseError) {
-                        Toast.makeText(SignUpActivity.this, "Account Creation Failed", Toast.LENGTH_SHORT).show();
-                        Log.e("Account Creation Error", firebaseError.toString() );
-                    }
-                });
+
+                DatabaseReference ref = FirebaseDatabase.getInstance()
+                        .getReferenceFromUrl("https://blipster.firebaseio.com/");
+
+
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                /*final Task<AuthResult> authResultTask = */auth.createUserWithEmailAndPassword(
+                        emailEditText.getText().toString(), passwordEditText.getText().toString());
+                        /*.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            }
+                        });*/
+//                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+//
+//                            }
+
+
+
             }
         });
+
+
 
     }
 

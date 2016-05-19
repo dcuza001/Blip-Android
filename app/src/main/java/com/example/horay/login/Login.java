@@ -3,6 +3,7 @@ package com.example.horay.login;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.firebase.client.AuthData;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Map;
 
@@ -33,40 +36,59 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        FirebaseAuth.getInstance().signOut();
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
         createAccount = (Button) findViewById(R.id.createAccount);
-        requestPermission();
+        //requestPermission();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Firebase myFirebaseRef = new Firebase("https://blipster.firebaseio.com/");
+                DatabaseReference ref = FirebaseDatabase.getInstance()
+                        .getReferenceFromUrl("https://blipster.firebaseio.com/");
 
-                myFirebaseRef.authWithPassword(usernameEditText.getText().toString(), passwordEditText.getText().toString(), new Firebase.AuthResultHandler() {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                auth.signInWithEmailAndPassword(usernameEditText.getText().toString(),passwordEditText.getText().toString())
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
                     @Override
-                    public void onAuthenticated(AuthData authData) {
-                        Toast.makeText(Login.this, "User ID: " + authData.getUid() + "Provider: " + authData.getProvider(), Toast.LENGTH_SHORT).show();
-                        Firebase users = new Firebase("https://blipster.firebaseio.com//");
-                        //TODO: Where you include the rules/storage for firebase data
-                        users.child("users").setValue(authData.getUid());
+                    public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
+                        final FirebaseUser user = firebaseAuth.getCurrentUser();
+                        if (user != null) {
+                            DatabaseReference users = FirebaseDatabase.getInstance()
+                                    .getReferenceFromUrl("https://blipster.firebaseio.com/");
 
-                        Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
-                        //Intent intent = new Intent(getApplicationContext(), DrawerActivity.class);
-                        startActivity(intent);
-                        //insert next intent mainly the menu
+                            users.child("users").setValue(user.getUid());
+                            Log.i("AuthStateChanged", user.getEmail());
 
-                    }
+                            Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
+                            //Intent intent = new Intent(getApplicationContext(), DrawerActivity.class);
+                            startActivity(intent);
+                            //insert next intent mainly the menu
+                        } else {
 
-                    @Override
-                    public void onAuthenticationError(FirebaseError firebaseError) {
-                        Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                        Log.e("Login Error", firebaseError.toString());
+                            Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                            Log.i("AuthStateChanged", "No user is signed in.");
+                        }
                     }
                 });
+
             }
         });
+
+
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,6 +98,7 @@ public class Login extends AppCompatActivity {
         });
 
     }
+
 
     private void requestPermission(){
         if (ContextCompat.checkSelfPermission(getApplicationContext(),

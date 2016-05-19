@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "129364741398",
+    "firebase_url": "https://blipster.firebaseio.com",
+    "project_id": "project-9136517748583089120",
+    "storage_bucket": "project-9136517748583089120.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129364741398:android:8f0c75397335b57b",
+        "android_client_info": {
+          "package_name": "com.example.horay.login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129364741398-7bgj7rjpmg5ef73u5u0jmpf4aoq49ha1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSNpwCT0XhAaABd_cof7odtZYNw4eIwvE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
