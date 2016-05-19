@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.security.Signature;
 import java.util.Map;
 
 /**
@@ -53,21 +55,44 @@ public class SignUpActivity extends AppCompatActivity{
 
 
                 FirebaseAuth auth = FirebaseAuth.getInstance();
-                /*final Task<AuthResult> authResultTask = */auth.createUserWithEmailAndPassword(
-                        emailEditText.getText().toString(), passwordEditText.getText().toString());
-                        /*.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
+
+                /*auth.createUserWithEmailAndPassword(
+                        emailEditText.getText().toString(), passwordEditText.getText().toString())
+                        .addOnSuccessListener(@NonNull Task < AuthResult > task){
+                    Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                    // If sign in fails, display a message to the user. If sign in succeeds
+                    // the auth state listener will be notified and logic to handle the
+                    // signed in user can be handled in the listener.
+                    if (!task.isSuccessful()) {
+                        Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }*/
+                auth.createUserWithEmailAndPassword(emailEditText.getText().toString(),
+                        passwordEditText.getText().toString())
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    Log.d("Poop", "createUserWithEmail:onComplete:" + task.isSuccessful());
+                                    finish();
+                                }
 
+                                // If sign in fails, display a message to the user. If sign in succeeds
+                                // the auth state listener will be notified and logic to handle the
+                                // signed in user can be handled in the listener.
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+
+                                }
+                                Toast.makeText(SignUpActivity.this, emailEditText.getText().toString()+
+                                        passwordEditText.getText().toString(),
+                                        Toast.LENGTH_SHORT).show();
                             }
-                        });*/
-//                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//
-//                            @Override
-//                            public void onComplete(@NonNull Task<AuthResult> task) {
-//
-//                            }
-
+                        });
 
 
             }
@@ -76,6 +101,5 @@ public class SignUpActivity extends AppCompatActivity{
 
 
     }
-
 
 }

@@ -41,7 +41,7 @@ public class Login extends AppCompatActivity {
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
         createAccount = (Button) findViewById(R.id.createAccount);
-        //requestPermission();
+        requestPermission();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,11 +57,7 @@ public class Login extends AppCompatActivity {
 
                             }
                         });
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
                 auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
                     @Override
                     public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
