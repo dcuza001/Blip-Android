@@ -45,12 +45,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
-import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.BooleanResult;
@@ -69,6 +63,11 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -90,7 +89,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     FloatingActionButton pinButton;
     Location location;
 
-    Firebase ref = new Firebase("https://blipster.firebaseio.com/");
+    DatabaseReference ref = FirebaseDatabase.getInstance()
+            .getReferenceFromUrl("https://blipster.firebaseio.com/");
 
     private Map<String,Marker> markers;
 
@@ -128,16 +128,15 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         pinButton = (FloatingActionButton) findViewById(R.id.addPin);
-        Firebase.setAndroidContext(this);
         markers = new HashMap<String, Marker>();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         // Spinner element
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        //Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
         // Spinner click listener
-        spinner.setOnItemSelectedListener(this);
+        //spinner.setOnItemSelectedListener(this);
 
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
@@ -152,13 +151,13 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         categories.add("ryocsaito@gmail.com");
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        /*ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
+        spinner.setAdapter(dataAdapter);*/
 
 
         //Multi Spinner
@@ -263,8 +262,15 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
+
             }
+
+
+            //what is this?
+            /*@Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }*/
         });
     }
 
@@ -288,7 +294,14 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
             }
 
             @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+            /*
+            @Override
             public void onCancelled(FirebaseError firebaseError) { }
+            */
         });
     }
 

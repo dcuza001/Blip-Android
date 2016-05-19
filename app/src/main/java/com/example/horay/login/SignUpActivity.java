@@ -3,6 +3,7 @@ package com.example.horay.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -10,9 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.security.Signature;
 import java.util.Map;
 
 /**
@@ -35,29 +43,63 @@ public class SignUpActivity extends AppCompatActivity{
         signUpButton = (Button) findViewById(R.id.signUpButton);
         //fullNameEditText = (EditText) findViewById(R.id.fullName);
 
+
+
         //Email works as long as you include @ and .com
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Firebase myFirebaseRef = new Firebase("https://blipster.firebaseio.com/");
-                myFirebaseRef.createUser(emailEditText.getText().toString(), passwordEditText.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
-                    @Override
-                    public void onSuccess(Map<String, Object> result) {
-                        Toast.makeText(SignUpActivity.this, "Account Successfully Created", Toast.LENGTH_SHORT).show();
-                        finish();
-                        /*Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
-                        startActivity(intent);*/
+
+                DatabaseReference ref = FirebaseDatabase.getInstance()
+                        .getReferenceFromUrl("https://blipster.firebaseio.com/");
+
+
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+
+
+                /*auth.createUserWithEmailAndPassword(
+                        emailEditText.getText().toString(), passwordEditText.getText().toString())
+                        .addOnSuccessListener(@NonNull Task < AuthResult > task){
+                    Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                    // If sign in fails, display a message to the user. If sign in succeeds
+                    // the auth state listener will be notified and logic to handle the
+                    // signed in user can be handled in the listener.
+                    if (!task.isSuccessful()) {
+                        Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
                     }
-                    @Override
-                    public void onError(FirebaseError firebaseError) {
-                        Toast.makeText(SignUpActivity.this, "Account Creation Failed", Toast.LENGTH_SHORT).show();
-                        Log.e("Account Creation Error", firebaseError.toString() );
-                    }
-                });
+                }*/
+                auth.createUserWithEmailAndPassword(emailEditText.getText().toString(),
+                        passwordEditText.getText().toString())
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    Log.d("Poop", "createUserWithEmail:onComplete:" + task.isSuccessful());
+                                    finish();
+                                }
+
+                                // If sign in fails, display a message to the user. If sign in succeeds
+                                // the auth state listener will be notified and logic to handle the
+                                // signed in user can be handled in the listener.
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+
+                                }
+                                Toast.makeText(SignUpActivity.this, emailEditText.getText().toString()+
+                                        passwordEditText.getText().toString(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
             }
         });
 
-    }
 
+
+    }
 
 }

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,11 +15,16 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
-import com.firebase.client.utilities.Base64;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -35,7 +41,10 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
 
     double latitude;
     double longitude;
-    Firebase ref = new Firebase("https://blipster.firebaseio.com/");
+
+    DatabaseReference ref = FirebaseDatabase.getInstance()
+            .getReferenceFromUrl("https://blipster.firebaseio.com/");
+
 
 
     private int getMarkerColor(RadioGroup rg){
@@ -74,7 +83,8 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
         byte[] bb = bos.toByteArray();
-        return Base64.encodeBytes(bb);
+        return Arrays.toString(bb);
+
 
     }
 
@@ -145,7 +155,7 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         String imageBase64 = convertImgString(cameraPic);
 
         Blip b = new Blip("ryocsaito@gmail.com", latitude, longitude, comment, s ,"Default", "Default", imageBase64);
-        Firebase userRef = ref.child("blips_ryota");
+        DatabaseReference userRef = ref.child("blips_ryota");
         userRef.push().setValue(b);
 
         this.finish();
