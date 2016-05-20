@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:inputType="textPassword"
-        android:hint="Password"
+        android:hint="Must be at least 6 characters"
         />
 
     <Button

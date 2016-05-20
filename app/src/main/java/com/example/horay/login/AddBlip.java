@@ -154,6 +154,7 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         int color = getMarkerColor(rg);
         String imageBase64 = convertImgString(cameraPic);
 
+        //make marker
         Blip b = new Blip("ryocsaito@gmail.com", latitude, longitude, comment, s ,"Default", "Default", imageBase64);
         DatabaseReference userRef = ref.child("blips_ryota");
         userRef.push().setValue(b);
