@@ -267,7 +267,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     }
 
     public void openDrawer(View v){
-        mDrawerLayout.openDrawer(Gravity.START); //Edit Gravity.End need API 14
+        mDrawerLayout.openDrawer(Gravity.LEFT); //Edit Gravity.End need API 14
 
     }
 
@@ -327,6 +327,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     @Override
     public boolean onMarkerClick(Marker marker) {
         Toast.makeText(this, marker.getId(), Toast.LENGTH_SHORT ).show();
+
         //each marker should be a key value to a blip object in a hashmap
         //send blip to fragment and open up UI :D
 
