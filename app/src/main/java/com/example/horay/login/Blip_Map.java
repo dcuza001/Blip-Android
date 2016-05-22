@@ -207,6 +207,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         searchCircle.setStrokeColor(Color.argb(100, 1, 83, 47));
         searchCircle.setFillColor(Color.argb(100, 105, 190, 40));
+        Toast.makeText(getApplicationContext(), "Making markers", Toast.LENGTH_SHORT).show();
 
         ref.child("blips_ryota").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -227,6 +228,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                             }
                         }
                         else {
+                            Toast.makeText(getApplicationContext(), "Making markers", Toast.LENGTH_SHORT).show();
                             makeMarker(pos,b);
                         }
                     }
