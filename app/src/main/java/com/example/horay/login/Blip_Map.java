@@ -1,6 +1,7 @@
 package com.example.horay.login;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -16,9 +17,12 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -67,6 +71,11 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     List<String> categories;
 
     DrawerLayout mDrawerLayout;
+    private DrawerLayout mDrawer;
+    private Toolbar toolbar;
+    private NavigationView nvDrawer;
+    private ActionBarDrawerToggle drawerToggle;
+
 
     //multi
     MultiSelectionSpinner spinner1;
@@ -134,7 +143,9 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        pinButton = (FloatingActionButton) findViewById(R.id.addPin);
+        //pinButton = (FloatingActionButton) findViewById(R.id.addPin);
+
+        // Find our drawer view
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         makeList();
         makeMultiSpinner();
@@ -143,7 +154,19 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawer.openDrawer(GravityCompat.START);
+                return true;
+        }
 
+        return super.onOptionsItemSelected(item);
+    }
 
     //created a separate function for searching tags
     private void findMarkers(final List<String> tags) {
