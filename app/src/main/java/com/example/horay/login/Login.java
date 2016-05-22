@@ -36,12 +36,25 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        FirebaseAuth.getInstance().signOut();
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
         createAccount = (Button) findViewById(R.id.createAccount);
         requestPermission();
+
+        //if already logged in, go straight to map if not do nothing
+        FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
+                    startActivity(intent);
+                } else {
+
+                }
+            }
+        };
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,11 +63,11 @@ public class Login extends AppCompatActivity {
                         .getReferenceFromUrl("https://blipster.firebaseio.com/");
 
                 FirebaseAuth auth = FirebaseAuth.getInstance();
-                auth.signInWithEmailAndPassword(usernameEditText.getText().toString(),passwordEditText.getText().toString())
+                auth.signInWithEmailAndPassword(usernameEditText.getText().toString(), passwordEditText.getText().toString())
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-
+                                Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -74,9 +87,6 @@ public class Login extends AppCompatActivity {
                             startActivity(intent);
                             //insert next intent mainly the menu
                         } else {
-
-                            Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                            Log.i("AuthStateChanged", "No user is signed in.");
                         }
                     }
                 });
