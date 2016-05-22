@@ -14,7 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -36,12 +39,21 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        FirebaseAuth.getInstance().signOut();
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
         createAccount = (Button) findViewById(R.id.createAccount);
         requestPermission();
+
+        //if already logged in, go straight to map if not do nothing
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
+            startActivity(intent);
+        } else {
+
+        }
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,37 +61,35 @@ public class Login extends AppCompatActivity {
                 DatabaseReference ref = FirebaseDatabase.getInstance()
                         .getReferenceFromUrl("https://blipster.firebaseio.com/");
 
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                auth.signInWithEmailAndPassword(usernameEditText.getText().toString(),passwordEditText.getText().toString())
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
+                String username = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+                if (username.isEmpty() && password.isEmpty()){
+                    Toast.makeText(Login.this, "Please insert an email & password", Toast.LENGTH_SHORT).show();
+                }
+                else if(username.isEmpty()){
+                    Toast.makeText(Login.this, "Please insert an email", Toast.LENGTH_SHORT).show();
+                }
+                else if (password.isEmpty()){
+                    Toast.makeText(Login.this, "Please insert a password", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                    auth.signInWithEmailAndPassword(username, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
+                                        startActivity(intent);
+                                    }
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
 
-                            }
-                        });
-
-                auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-                    @Override
-                    public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
-                        final FirebaseUser user = firebaseAuth.getCurrentUser();
-                        if (user != null) {
-                            DatabaseReference users = FirebaseDatabase.getInstance()
-                                    .getReferenceFromUrl("https://blipster.firebaseio.com/");
-
-                            users.child("users").setValue(user.getUid());
-                            Log.i("AuthStateChanged", user.getEmail());
-
-                            Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
-                            //Intent intent = new Intent(getApplicationContext(), DrawerActivity.class);
-                            startActivity(intent);
-                            //insert next intent mainly the menu
-                        } else {
-
-                            Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                            Log.i("AuthStateChanged", "No user is signed in.");
-                        }
-                    }
-                });
+                }
 
             }
         });
