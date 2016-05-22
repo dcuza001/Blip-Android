@@ -1,6 +1,9 @@
 package com.example.horay.login;
 
 import android.Manifest;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -10,11 +13,17 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -31,6 +40,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +52,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener, OnItemSelectedListener
-, GoogleMap.OnMarkerClickListener {
+, GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener{
+
+    public static Activity blipMapActivity;
 
     private static final int CONTENT_VIEW_ID = 10101010;
     private GoogleMap mMap;
@@ -59,6 +71,11 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     List<String> categories;
 
     DrawerLayout mDrawerLayout;
+    private DrawerLayout mDrawer;
+    private Toolbar toolbar;
+    private NavigationView nvDrawer;
+    private ActionBarDrawerToggle drawerToggle;
+
 
     //multi
     MultiSelectionSpinner spinner1;
@@ -116,6 +133,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        blipMapActivity = this;
         markerMap = new HashMap<>();
 
         super.onCreate(savedInstanceState);
@@ -125,13 +143,30 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        pinButton = (FloatingActionButton) findViewById(R.id.addPin);
+        //pinButton = (FloatingActionButton) findViewById(R.id.addPin);
+
+        // Find our drawer view
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         makeList();
         makeMultiSpinner();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawer.openDrawer(GravityCompat.START);
+                return true;
+        }
 
+        return super.onOptionsItemSelected(item);
+    }
 
     //created a separate function for searching tags
     private void findMarkers(final List<String> tags) {
@@ -333,6 +368,45 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         return true;
     }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        FragmentManager fragmentManager = getFragmentManager();
+
+        if (id == R.id.nav_groups) {
+            // Handle the groups action
+            /*fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new GroupsFragment())
+                    .commit();*/
+        } else if (id == R.id.nav_settings) {
+            /*fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new SettingsFragment())
+                    .commit();*/
+
+        } else if (id == R.id.nav_logout) {
+            /*fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new LogoutFragment())
+                    .commit();*/
+            FirebaseAuth.getInstance().signOut();
+            finish();
+
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+        //test comment
+    }
+
 }
 
 
