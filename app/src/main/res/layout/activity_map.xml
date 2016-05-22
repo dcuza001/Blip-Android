@@ -23,11 +23,6 @@
             tools:context=".Blip_Map"
             tools:layout="@layout/activity_map" />
 
-        <include
-            android:id="@+id/tool_bar"
-            layout="@layout/toolbar"
-            ></include>
-
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addPin"
             app:backgroundTint="@color/colorPrimary"
@@ -53,6 +48,16 @@
             android:layout_marginRight="20dp"
             android:layout_above="@+id/addPin"
             android:layout_alignParentEnd="true" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/tool_bar"
+                layout="@layout/toolbar"
+                ></include>
+        </FrameLayout>
 
         <ImageView
             android:onClick="loadButton"
@@ -103,7 +108,7 @@
                 android:layout_toLeftOf="@+id/getSelected"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:spinnerMode="dropdown"
 
                 />
