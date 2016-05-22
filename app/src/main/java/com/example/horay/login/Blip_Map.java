@@ -11,6 +11,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -41,6 +43,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,6 +78,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     private Toolbar toolbar;
     private NavigationView nvDrawer;
     private ActionBarDrawerToggle drawerToggle;
+
+    TextView emailNavHeader;
 
 
     //multi
@@ -152,6 +157,24 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+
+            // Name, email address, and profile photo Url
+            //String name = user.getDisplayName();
+            /*String email = user.getEmail();
+            //Uri photoUrl = user.getPhotoUrl();
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getToken() instead.
+            String uid = user.getUid();
+
+            emailNavHeader = (TextView) findViewById(R.id.emailNavHeader);
+            emailNavHeader.setText(email);*/
+        }
+
     }
 
     @Override
@@ -176,13 +199,14 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         markerMap.clear();
 
         LatLng latLngCenter = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(latLngCenter , 16) );
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngCenter, 16));
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         searchCircle = this.mMap.addCircle(new CircleOptions().center(latLngCenter).radius(radiusValue));
         searchCircle.setCenter(latLngCenter);
-        searchCircle.setFillColor(Color.argb(66, 255, 0, 255));
-        searchCircle.setStrokeColor(Color.argb(66, 0, 0, 0));
+
+        searchCircle.setStrokeColor(Color.argb(100, 1, 83, 47));
+        searchCircle.setFillColor(Color.argb(100, 105, 190, 40));
 
         ref.child("blips_ryota").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -278,8 +302,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         searchCircle = this.mMap.addCircle(new CircleOptions().center(latLngCenter).radius(radiusValue));
         searchCircle.setCenter(latLngCenter);
-        searchCircle.setFillColor(Color.argb(66, 255, 0, 255));
-        searchCircle.setStrokeColor(Color.argb(66, 0, 0, 0));
+        searchCircle.setStrokeColor(Color.argb(100, 1, 83, 47));
+        searchCircle.setFillColor(Color.argb(100, 105, 190, 40));
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,1, this);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, this);
