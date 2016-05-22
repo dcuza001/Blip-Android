@@ -80,6 +80,8 @@ public class Login extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isSuccessful()){
                                         Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), Blip_Map.class);
+                                        startActivity(intent);
                                     }
                                     if (!task.isSuccessful()) {
                                         Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
