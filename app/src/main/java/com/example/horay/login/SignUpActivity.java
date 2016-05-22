@@ -31,7 +31,7 @@ public class SignUpActivity extends AppCompatActivity{
     EditText emailEditText;
     EditText passwordEditText;
     Button signUpButton;
-    EditText fullNameEditText;
+    EditText nameEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class SignUpActivity extends AppCompatActivity{
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         signUpButton = (Button) findViewById(R.id.signUpButton);
-        //fullNameEditText = (EditText) findViewById(R.id.fullName);
+        nameEditText = (EditText) findViewById(R.id.nameEditText);
 
 
 
@@ -70,29 +70,50 @@ public class SignUpActivity extends AppCompatActivity{
                                 Toast.LENGTH_SHORT).show();
                     }
                 }*/
-                auth.createUserWithEmailAndPassword(emailEditText.getText().toString(),
-                        passwordEditText.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()){
-                                    Log.d("Poop", "createUserWithEmail:onComplete:" + task.isSuccessful());
-                                    finish();
-                                }
+                String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+                String name = nameEditText.getText().toString();
+                if (name.isEmpty()){
+                    Toast.makeText(SignUpActivity.this, "Please insert a name",
+                            Toast.LENGTH_SHORT).show();
+                }
+                if(email.isEmpty()){
+                    Toast.makeText(SignUpActivity.this, "Please insert a email",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else if(password.isEmpty()){
+                    Toast.makeText(SignUpActivity.this, "Please insert a password",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else if(password.length() < 6) {
+                    Toast.makeText(SignUpActivity.this, "Password must be longer than 6 characters",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("Poop", "createUserWithEmail:onComplete:" + task.isSuccessful());
+                                        finish();
+                                    }
 
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
+                                    // If sign in fails, display a message to the user. If sign in succeeds
+                                    // the auth state listener will be notified and logic to handle the
+                                    // signed in user can be handled in the listener.
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(SignUpActivity.this, "Account Creation failed.\n Email is invalid",
+                                                Toast.LENGTH_SHORT).show();
 
+                                    }
+                                    //When testing use this
+                                    /*Toast.makeText(SignUpActivity.this, emailEditText.getText().toString() +
+                                                    passwordEditText.getText().toString(),
+                                            Toast.LENGTH_SHORT).show();*/
                                 }
-                                Toast.makeText(SignUpActivity.this, emailEditText.getText().toString()+
-                                        passwordEditText.getText().toString(),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                            });
+                }
 
 
             }
