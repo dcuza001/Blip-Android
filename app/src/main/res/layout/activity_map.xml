@@ -103,7 +103,7 @@
                 android:layout_toLeftOf="@+id/getSelected"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:spinnerMode="dropdown"
 
                 />
