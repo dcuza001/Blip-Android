@@ -4,10 +4,147 @@
     android:layout_height="match_parent"
     tools:context="com.example.horay.login.ViewBlip">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ScrollView01"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none" >
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    <RelativeLayout
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="572dp"
+        android:layout_gravity="center_horizontal|top">
+
+        <ImageView
+            android:src="@drawable/forest"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:id="@+id/imageView2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignEnd="@+id/textView" />
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text=".@BoltMotorbikes' electric bicycle is like the best of the motorcycle and bike worlds http://cnnmon.ie/1TcYfL8 "
+            android:id="@+id/textView"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/imageView2"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="UserName"
+            android:id="@+id/textView3"
+            android:layout_below="@+id/textView"
+            android:layout_alignStart="@+id/imageView2" />
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_alignBottom="@+id/textView3"
+            android:layout_alignParentEnd="true"
+            android:weightSum="1"
+            android:id="@+id/relativeLayout">
+
+            <ImageView
+
+                android:src="@drawable/like"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/imageView3"
+                android:layout_marginEnd="75dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="0dp" />
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="1"
+                android:id="@+id/LikeNum"
+                android:layout_weight="0.09"
+                android:layout_marginLeft="200dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="29dp" />
+
+            <ImageView
+
+                android:src="@drawable/dislike"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/DislikeImg"
+                android:layout_marginLeft="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="1"
+                android:id="@+id/DislikeNum"
+                android:layout_weight="0.09"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/DislikeImg" />
+
+        </RelativeLayout>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Follow"
+            android:id="@+id/button"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_alignEnd="@+id/textView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Comments : 0"
+            android:id="@+id/textView4"
+            android:layout_alignBottom="@+id/button"
+            android:layout_alignStart="@+id/textView3" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView"
+            android:layout_below="@+id/textView4"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+    </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>

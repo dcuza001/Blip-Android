@@ -5,9 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -22,6 +19,14 @@
             android:layout_height="match_parent"
             tools:context=".Blip_Map"
             tools:layout="@layout/activity_map" />
+
+        <FrameLayout
+            android:id="@+id/viewFrame"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_alignParentBottom="true">
+
+        </FrameLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addPin"
@@ -49,7 +54,8 @@
             android:layout_above="@+id/addPin"
             android:layout_alignParentEnd="true" />
 
-        <FrameLayout
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -57,7 +63,7 @@
                 android:id="@+id/tool_bar"
                 layout="@layout/toolbar"
                 ></include>
-        </FrameLayout>
+        </LinearLayout>
 
         <ImageView
             android:onClick="loadButton"
@@ -118,9 +124,6 @@
 
     </RelativeLayout>
 
-
-
-    </FrameLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
