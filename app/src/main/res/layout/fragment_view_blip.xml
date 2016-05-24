@@ -8,7 +8,7 @@
     <RelativeLayout
         android:background="@color/gray"
         android:layout_width="match_parent"
-        android:layout_height="572dp"
+        android:layout_height="654dp"
         android:layout_gravity="center_horizontal|top">
 
         <ImageView
@@ -21,7 +21,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:layout_alignEnd="@+id/textView" />
+            android:layout_alignEnd="@+id/commentView" />
 
         <TextView
             android:paddingLeft="10dp"
@@ -29,20 +29,21 @@
             android:layout_height="80dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text=".@BoltMotorbikes' electric bicycle is like the best of the motorcycle and bike worlds http://cnnmon.ie/1TcYfL8 "
-            android:id="@+id/textView"
+            android:id="@+id/commentView"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_below="@+id/BlipImage"
             android:layout_marginTop="10dp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="UserName"
             android:id="@+id/usernameView"
-            android:layout_below="@+id/textView"
-            android:layout_alignStart="@+id/BlipImage" />
+            android:layout_below="@+id/commentView"
+            android:layout_alignStart="@+id/BlipImage"
+            android:gravity="center_vertical" />
 
         <RelativeLayout
             android:orientation="horizontal"
@@ -51,14 +52,15 @@
             android:layout_alignBottom="@+id/usernameView"
             android:layout_alignParentEnd="true"
             android:weightSum="1"
-            android:id="@+id/relativeLayout">
+            android:id="@+id/relativeLayout"
+            android:gravity="center">
 
             <ImageView
 
                 android:src="@drawable/like"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:id="@+id/imageView3"
+                android:id="@+id/LikeImg"
                 android:layout_marginEnd="75dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="0dp"
@@ -107,9 +109,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Follow"
-            android:id="@+id/button"
+            android:id="@+id/buttonFollow"
             android:layout_below="@+id/relativeLayout"
-            android:layout_alignEnd="@+id/relativeLayout" />
+            android:layout_alignStart="@+id/replyButton" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -117,16 +119,34 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Comments : 0"
             android:id="@+id/commentNum"
-            android:layout_alignBottom="@+id/button"
+            android:layout_alignBottom="@+id/buttonFollow"
             android:layout_alignStart="@+id/usernameView" />
 
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/listView"
-            android:layout_below="@+id/commentNum"
-            android:layout_marginTop="35dp"
-            android:layout_alignParentStart="true" />
+            android:id="@+id/listViewReplies"
+            android:layout_marginTop="68dp"
+            android:layout_below="@+id/buttonFollow"
+            android:layout_alignStart="@+id/commentView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/TagView"
+            android:layout_below="@+id/buttonFollow"
+            android:layout_alignStart="@+id/buttonFollow" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Reply"
+            android:id="@+id/replyButton"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/commentView" />
 
     </RelativeLayout>
 

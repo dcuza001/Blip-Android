@@ -222,8 +222,10 @@ public class Blip_Map extends FragmentActivity implements OnMapReadyCallback, Lo
         ref.child("blips_ryota").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot usersSnapshot) {
-
+                //Blip b = new Blip();
                 for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                    String s = userSnapshot.getKey();
+                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
                     Blip b = userSnapshot.getValue(Blip.class);
                     LatLng pos = new LatLng(b.x, b.y);
                     if (insideCircle(pos, searchCircle)) {
@@ -246,12 +248,11 @@ public class Blip_Map extends FragmentActivity implements OnMapReadyCallback, Lo
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled (DatabaseError databaseError){
 
-            }
+            }});
 
-        });
-    }
+
 
 //    private void findMarkersDefault() {
 //        ref.child("blips_ryota").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -282,6 +283,10 @@ public class Blip_Map extends FragmentActivity implements OnMapReadyCallback, Lo
 //            */
 //        });
 //    }
+
+
+
+    }
 
     private void loadMarkers(){
         double latitude = location.getLatitude();

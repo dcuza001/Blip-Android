@@ -35,8 +35,6 @@ public class Login extends FragmentActivity {
     EditText usernameEditText;
     Button loginButton;
     Button createAccount;
-    private static final int permission = 0;
-    private static final int permission_cam = 1;
 
 
     @Override
