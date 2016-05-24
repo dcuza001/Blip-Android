@@ -3,6 +3,7 @@ package com.example.horay.login;
 import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -84,9 +85,14 @@ public class Blip_Map extends FragmentActivity implements OnMapReadyCallback, Lo
 
     TextView emailNavHeader;
 
-
     //multi
     MultiSelectionSpinner spinner1;
+
+    public Blip blipToSend;
+
+    public Blip getBlipObject(){
+        return blipToSend;
+    }
 
     private void makeList(){
         // Spinner Drop down elements
@@ -232,7 +238,7 @@ public class Blip_Map extends FragmentActivity implements OnMapReadyCallback, Lo
                             }
                         }
                         else {
-                            Toast.makeText(getApplicationContext(), "Making markers", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), "Making markers", Toast.LENGTH_SHORT).show();
                             makeMarker(pos,b);
                         }
                     }
@@ -341,6 +347,7 @@ public class Blip_Map extends FragmentActivity implements OnMapReadyCallback, Lo
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 
+
         Intent intent = new Intent(getApplicationContext(), AddBlip.class);
         intent.putExtra("Lat", latitude);
         intent.putExtra("Long", longitude);
@@ -393,20 +400,15 @@ public class Blip_Map extends FragmentActivity implements OnMapReadyCallback, Lo
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        Toast.makeText(this, marker.getId(), Toast.LENGTH_SHORT ).show();
-        //FrameLayout frame = new FrameLayout(R.id.;
+        blipToSend = markerMap.get(marker.getId());
+        Toast.makeText(this, blipToSend.owner, Toast.LENGTH_SHORT ).show();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("BlipObj", blipToSend);
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.viewFrame, new ViewBlip());
-        transaction.addToBackStack(null);
-        transaction.commit();
-
-//        FragmentManager fragmentManager = getFragmentManager();
-//
-//        fragmentManager.beginTransaction()
-//                    .replace(R.id.viewBlipFragment, new ViewBlip())
-//                    .commit();
-
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        ViewBlipDialog fragment = new ViewBlipDialog();
+        fragment.setArguments(bundle);
+        fragment.show(fm, "fragment_edit_name");
         return true;
     }
 

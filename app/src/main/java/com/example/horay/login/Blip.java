@@ -1,5 +1,6 @@
 package com.example.horay.login;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -7,7 +8,7 @@ import java.util.UUID;
 /**
  * Created by Ryota on 5/16/2016.
  */
-public class Blip {
+public class Blip implements Serializable {
 
     public String owner;
     public String comment;
