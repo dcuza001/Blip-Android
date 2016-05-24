@@ -8,7 +8,7 @@
     <RelativeLayout
         android:background="@color/gray"
         android:layout_width="match_parent"
-        android:layout_height="572dp"
+        android:layout_height="654dp"
         android:layout_gravity="center_horizontal|top">
 
         <ImageView
@@ -36,13 +36,14 @@
             android:layout_marginTop="10dp" />
 
         <TextView
-            android:layout_width="180dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="UserName"
             android:id="@+id/usernameView"
             android:layout_below="@+id/commentView"
-            android:layout_alignStart="@+id/BlipImage" />
+            android:layout_alignStart="@+id/BlipImage"
+            android:gravity="center_vertical" />
 
         <RelativeLayout
             android:orientation="horizontal"
@@ -51,7 +52,8 @@
             android:layout_alignBottom="@+id/usernameView"
             android:layout_alignParentEnd="true"
             android:weightSum="1"
-            android:id="@+id/relativeLayout">
+            android:id="@+id/relativeLayout"
+            android:gravity="center">
 
             <ImageView
 
@@ -109,7 +111,7 @@
             android:text="Follow"
             android:id="@+id/buttonFollow"
             android:layout_below="@+id/relativeLayout"
-            android:layout_alignEnd="@+id/relativeLayout" />
+            android:layout_alignStart="@+id/replyButton" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -123,7 +125,7 @@
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/listView"
+            android:id="@+id/listViewReplies"
             android:layout_marginTop="68dp"
             android:layout_below="@+id/buttonFollow"
             android:layout_alignStart="@+id/commentView" />

@@ -164,7 +164,7 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         postBlip.put(b.ID, b);
 
         DatabaseReference userRef = ref.child("blips_ryota");
-        userRef.setValue(postBlip);
+        userRef.push().setValue(postBlip);
 
         this.finish();
     }

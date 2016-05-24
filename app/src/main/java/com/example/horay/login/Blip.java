@@ -2,7 +2,9 @@ package com.example.horay.login;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -20,11 +22,12 @@ public class Blip implements Serializable {
     public String ID = UUID.randomUUID().toString();
     public String pic;
     public String timeStamp;
-    public String reply;
+    public List<String> replies;
     public int likes;
     public int dislikes;
 
     public Blip(String username, double x, double y, String comment, String tag, String group ,String type, String image) {
+
         this.owner = "ryocsaito@gmail.com";
         this.x = x;
         this.y = y;
@@ -36,6 +39,9 @@ public class Blip implements Serializable {
         this.likes = 0;
         this.dislikes = 0;
         this.timeStamp = new SimpleDateFormat("HH:mm:ss MM/dd").format(new Date());
+        this.replies = new ArrayList<>();
+        this.replies.add("HIIII");
+
     }
 
     //Introducing the dummy constructor

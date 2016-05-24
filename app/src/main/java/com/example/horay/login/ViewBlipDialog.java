@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,6 +44,9 @@ public class ViewBlipDialog extends DialogFragment {
     //get info from this
     Blip blip;
 
+    View view;
+
+    ArrayAdapter<String> dataAdapter;
     DatabaseReference ref = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://blipster.firebaseio.com/");
 
@@ -52,6 +57,7 @@ public class ViewBlipDialog extends DialogFragment {
         numLikes.setText(Integer.toString(blip.likes));
         numDislikes.setText(Integer.toString(blip.dislikes));
         tagView.setText(blip.tag);
+
     }
 
     private void setListeners(){
@@ -101,6 +107,14 @@ public class ViewBlipDialog extends DialogFragment {
             @Override
             public void onClick(View v)
             {
+                String s = "This is a reply!";
+                blip.replies.add(s);
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("replies", blip.replies);
+                userRef.updateChildren(updates);
+                dataAdapter.notifyDataSetChanged();;
+
+
             }
         });
 
@@ -116,7 +130,15 @@ public class ViewBlipDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
         blip = (Blip) bundle.getSerializable("BlipObj");
-        View view =  inflater.inflate(R.layout.fragment_view_blip, container, false);
+        view =  inflater.inflate(R.layout.fragment_view_blip, container, false);
+
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         image = (ImageView) view.findViewById(R.id.BlipImage);
         likeImage = (ImageView) view.findViewById(R.id.LikeImg);
@@ -132,16 +154,13 @@ public class ViewBlipDialog extends DialogFragment {
         followButton = (Button) view.findViewById(R.id.buttonFollow);
         replyButton = (Button) view.findViewById(R.id.replyButton);
 
+//        dataAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, blip.replies);
+//        replyView =(ListView) view.findViewById(R.id.listViewReplies) ;
+//        replyView.setAdapter(dataAdapter);
 
 
         setFields();
         setListeners();
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
 
