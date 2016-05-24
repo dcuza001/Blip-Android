@@ -3,7 +3,9 @@ package com.example.horay.login;
 import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -16,6 +18,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +58,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener, OnItemSelectedListener
+public class Blip_Map extends FragmentActivity implements OnMapReadyCallback, LocationListener, OnItemSelectedListener
 , GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener{
 
     public static Activity blipMapActivity;
@@ -81,9 +85,14 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     TextView emailNavHeader;
 
-
     //multi
     MultiSelectionSpinner spinner1;
+
+    public Blip blipToSend;
+
+    public Blip getBlipObject(){
+        return blipToSend;
+    }
 
     private void makeList(){
         // Spinner Drop down elements
@@ -138,7 +147,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        blipMapActivity = this;
         markerMap = new HashMap<>();
 
         super.onCreate(savedInstanceState);
@@ -157,6 +165,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        blipMapActivity = this;
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -228,7 +238,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                             }
                         }
                         else {
-                            Toast.makeText(getApplicationContext(), "Making markers", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), "Making markers", Toast.LENGTH_SHORT).show();
                             makeMarker(pos,b);
                         }
                     }
@@ -310,6 +320,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,1, this);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, this);
 
+        mMap.setOnMarkerClickListener( this);
 
         loadMarkers();
     }
@@ -335,6 +346,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     public void addMarker(View view) {
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
+
 
         Intent intent = new Intent(getApplicationContext(), AddBlip.class);
         intent.putExtra("Lat", latitude);
@@ -387,11 +399,16 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Toast.makeText(this, marker.getId(), Toast.LENGTH_SHORT ).show();
 
-        //each marker should be a key value to a blip object in a hashmap
-        //send blip to fragment and open up UI :D
+        blipToSend = markerMap.get(marker.getId());
+        Toast.makeText(this, blipToSend.owner, Toast.LENGTH_SHORT ).show();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("BlipObj", blipToSend);
 
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        ViewBlipDialog fragment = new ViewBlipDialog();
+        fragment.setArguments(bundle);
+        fragment.show(fm, "fragment_edit_name");
         return true;
     }
 
@@ -431,6 +448,18 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         drawer.closeDrawer(GravityCompat.START);
         return true;
         //test comment
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(Gravity.LEFT);
+
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }
