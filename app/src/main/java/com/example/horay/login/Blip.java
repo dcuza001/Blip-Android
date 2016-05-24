@@ -40,7 +40,6 @@ public class Blip implements Serializable {
         this.dislikes = 0;
         this.timeStamp = new SimpleDateFormat("HH:mm:ss MM/dd").format(new Date());
         this.replies = new ArrayList<>();
-        this.replies.add("HIIII");
 
     }
 
