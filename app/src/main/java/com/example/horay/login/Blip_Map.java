@@ -430,6 +430,8 @@ public class Blip_Map extends FragmentActivity implements OnMapReadyCallback, Lo
             /*fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new GroupsFragment())
                     .commit();*/
+            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_settings) {
             /*fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new SettingsFragment())
