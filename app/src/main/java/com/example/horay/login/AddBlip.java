@@ -25,7 +25,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     EditText commentText;
@@ -156,8 +158,13 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
 
         //make marker
         Blip b = new Blip("ryocsaito@gmail.com", latitude, longitude, comment, s ,"Default", "Default", imageBase64);
+        Map<String, String> postID = new HashMap<>() ;
+        Map<String, Blip> postBlip = new HashMap<>() ;
+
+        postBlip.put(b.ID, b);
+
         DatabaseReference userRef = ref.child("blips_ryota");
-        userRef.push().setValue(b);
+        userRef.setValue(postBlip);
 
         this.finish();
     }

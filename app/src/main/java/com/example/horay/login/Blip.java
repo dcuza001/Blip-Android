@@ -18,10 +18,11 @@ public class Blip implements Serializable {
     public String group = "default";
     public String type = "default";
     public String ID = UUID.randomUUID().toString();
-    public String image;
-    public String timeStamp = new SimpleDateFormat("HH:mm:ss MM/dd").format(new Date());
+    public String pic;
+    public String timeStamp;
     public String reply;
-    public int rating = 0;
+    public int likes;
+    public int dislikes;
 
     public Blip(String username, double x, double y, String comment, String tag, String group ,String type, String image) {
         this.owner = "ryocsaito@gmail.com";
@@ -31,7 +32,10 @@ public class Blip implements Serializable {
         this.tag = tag;
         this.group = group;
         this.type = type;
-        this.image = image;
+        this.pic = image;
+        this.likes = 0;
+        this.dislikes = 0;
+        this.timeStamp = new SimpleDateFormat("HH:mm:ss MM/dd").format(new Date());
     }
 
     //Introducing the dummy constructor
