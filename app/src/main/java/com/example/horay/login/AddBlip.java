@@ -150,10 +150,8 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         categories.add("Business Services");
         categories.add("Computers");
         categories.add("Education");
-        categories.add("Friends");
         categories.add("Personal");
         categories.add("Travel");
-        categories.add("ryocsaito@gmail.com");
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);

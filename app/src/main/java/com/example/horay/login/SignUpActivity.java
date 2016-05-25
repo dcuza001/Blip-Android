@@ -1,6 +1,7 @@
 package com.example.horay.login;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -31,7 +33,7 @@ public class SignUpActivity extends AppCompatActivity{
     EditText emailEditText;
     EditText passwordEditText;
     Button signUpButton;
-    EditText nameEditText;
+    EditText usernameEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class SignUpActivity extends AppCompatActivity{
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         signUpButton = (Button) findViewById(R.id.signUpButton);
-        nameEditText = (EditText) findViewById(R.id.nameEditText);
+        usernameEditText = (EditText) findViewById(R.id.usernameEditText);
 
 
 
@@ -50,7 +52,7 @@ public class SignUpActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
 
-                DatabaseReference ref = FirebaseDatabase.getInstance()
+                final DatabaseReference ref = FirebaseDatabase.getInstance()
                         .getReferenceFromUrl("https://blipster.firebaseio.com/");
 
 
@@ -70,11 +72,11 @@ public class SignUpActivity extends AppCompatActivity{
                                 Toast.LENGTH_SHORT).show();
                     }
                 }*/
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                String name = nameEditText.getText().toString();
-                if (name.isEmpty()){
-                    Toast.makeText(SignUpActivity.this, "Please insert a name",
+                final String email = emailEditText.getText().toString();
+                final String password = passwordEditText.getText().toString();
+                final String username = usernameEditText.getText().toString();
+                if (username.isEmpty()){
+                    Toast.makeText(SignUpActivity.this, "Please insert a username",
                             Toast.LENGTH_SHORT).show();
                 }
                 if(email.isEmpty()){
@@ -95,7 +97,36 @@ public class SignUpActivity extends AppCompatActivity{
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        Log.d("Poop", "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+
+
+                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                                        //TODO:Display Picture
+                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(username)
+                                                .setPhotoUri(Uri.parse("test"))
+                                                .build();
+
+                                        user.updateProfile(profileUpdates)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if(task.isSuccessful()){
+                                                            Toast.makeText(SignUpActivity.this, "Profile Updated",
+                                                                    Toast.LENGTH_SHORT).show();
+                                                        }
+                                                        else{
+                                                            Toast.makeText(SignUpActivity.this, "Profile failed",
+                                                                    Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+                                        DatabaseReference clientsRef = ref.child("clients").child(username);
+                                        User info = new User(email, password);
+                                        clientsRef.setValue(info);
+                                        clientsRef.child("following").setValue("");
+
                                         finish();
                                     }
 
