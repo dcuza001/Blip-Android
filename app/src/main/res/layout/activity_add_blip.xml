@@ -18,9 +18,9 @@
         android:layout_height="100dp"
         android:layout_weight="1"
         android:scrollHorizontally="false"
-        android:hint="Type your comment here!"
+        android:hint="Type your comment here! 200 Char Max"
         android:inputType="textCapSentences|textMultiLine"
-        android:maxLength="2000"
+        android:maxLength="200"
         android:maxLines="4" />
     <LinearLayout
         android:gravity="center"
@@ -91,15 +91,29 @@
 
         />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tagText"
+        android:text="Select Tag:"
+        android:textColor="#000000"
+        android:background="@android:color/transparent"
+        android:layout_above="@+id/spinnerTags"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:spinnerMode="dropdown" />
+
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinnerTags"
-        android:background="@android:color/transparent"
+        android:background="#69BE28"
         android:layout_above="@+id/post_button"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="5dp"
-        android:spinnerMode="dropdown" />
+        android:layout_marginBottom="5dp"
+        android:spinnerMode="dropdown"
+        />
 
 
 
