@@ -3,7 +3,10 @@ package com.example.horay.login;
 import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -13,6 +16,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -23,11 +27,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,8 +48,12 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,9 +61,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
+
 public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener, OnItemSelectedListener
 , GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener{
 
@@ -71,32 +84,79 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
             .getReferenceFromUrl("https://blipster.firebaseio.com/");
 
     public Map<String,Blip> markerMap;
-    List<String> categories;
 
     DrawerLayout mDrawerLayout;
+
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
     private ActionBarDrawerToggle drawerToggle;
 
-    TextView emailNavHeader;
-
+    List<String> categories;
 
     //multi
     MultiSelectionSpinner spinner1;
 
     private void makeList(){
+
         // Spinner Drop down elements
-        categories = new ArrayList<String>();
+        categories = new ArrayList<>();
         //Add categories here
         categories.add("Automobile");
         categories.add("Business Services");
         categories.add("Computers");
         categories.add("Education");
-        categories.add("Friends");
         categories.add("Personal");
         categories.add("Travel");
-        categories.add("ryocsaito@gmail.com");
+
+        //final Semaphore semaphore = new Semaphore(0);
+        final String username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        categories.add(username);
+        //TODO:
+        if(username != null) {
+            ref.child("clients").child(username).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot usersSnapshot) {
+
+                    if (usersSnapshot.child("following").exists()) {
+
+                        ref.child("clients").child(username).child("following").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot usersSnapshot) {
+
+                                for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                                    String friend = userSnapshot.getKey().toString();
+
+                                    categories.add(friend);
+                                }
+
+                                //Todo:: Fix race condition because onDataChange is asynchronous and is slower than
+                                // rest of code being compiled
+                                makeMultiSpinner();
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+
+
+                        });
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+
+
+            });
+        }
+
     }
 
     private void makeMarker(LatLng pos, Blip b){
@@ -104,8 +164,9 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         markerMap.put(m.getId(), b);
     }
 
-    private void makeMultiSpinner(){
+    public void makeMultiSpinner(){
         //Multi Spinner
+        //This is now in makeList
         spinner1 = (MultiSelectionSpinner) findViewById(R.id.mySpinner1);
         assert spinner1 != null;
         spinner1.setItems(categories);
@@ -142,6 +203,9 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         markerMap = new HashMap<>();
 
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -152,28 +216,32 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
         // Find our drawer view
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        makeList();
-        makeMultiSpinner();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
+        View header = navigationView.getHeaderView(0);
 
-            // Name, email address, and profile photo Url
-            //String name = user.getDisplayName();
-            /*String email = user.getEmail();
-            //Uri photoUrl = user.getPhotoUrl();
+        //Set the email
+        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getToken() instead.
-            String uid = user.getUid();
 
-            emailNavHeader = (TextView) findViewById(R.id.emailNavHeader);
-            emailNavHeader.setText(email);*/
+        TextView emailNavHeader;
+        if(email != null && !email.isEmpty()) {
+            emailNavHeader = (TextView) header.findViewById(R.id.emailNavHeader);
+            emailNavHeader.setText(email);
         }
+        if( name != null && !name.isEmpty()) {
+
+            emailNavHeader = (TextView) header.findViewById(R.id.nameNavHeader);
+            emailNavHeader.setText(name);
+        }
+
+
+        makeList();
+        makeMultiSpinner();
+
 
     }
 
@@ -208,6 +276,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         searchCircle.setStrokeColor(Color.argb(100, 1, 83, 47));
         searchCircle.setFillColor(Color.argb(100, 105, 190, 40));
 
+        //Todo:
         ref.child("blips_ryota").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot usersSnapshot) {
@@ -220,10 +289,12 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                         if (tags.size() > 0) {
                             for (int i = 0; i < tags.size(); i++) {
                                 String tag = tags.get(i);
-                                String name = b.tag;
-                                if (tag.equals(name)) {
+                                String blipTag = b.tag;
+                                String blipOwner = b.owner;
+                                if (tag.equals(blipOwner) || tag.equals(blipTag)) {
                                     makeMarker(pos, b);
                                 }
+
                             }
                         }
                         else {
@@ -313,6 +384,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     }
     public void loadButton(View view){
         loadMarkers();
+
     }
 
     public void centerCamera(View view){
@@ -372,10 +444,10 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
-        String item = parent.getItemAtPosition(position).toString();
+        //String item = parent.getItemAtPosition(position).toString();
 
         // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
 
 
     }
@@ -412,15 +484,88 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                     .commit();*/
 
         } else if (id == R.id.nav_logout) {
-            /*fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new LogoutFragment())
-                    .commit();*/
+
             FirebaseAuth.getInstance().signOut();
             finish();
 
+        } else if (id == R.id.nav_add) {
 
-        } else if (id == R.id.nav_share) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    this);
 
+            LayoutInflater inflater = Blip_Map.this.getLayoutInflater();
+            //this is what I did to added the layout to the alert dialog
+            View layout=inflater.inflate(R.layout.dialog,null);
+            alertDialogBuilder.setView(layout);
+            final EditText usernameInput = (EditText)layout.findViewById(R.id.findUser);
+            // set title
+            alertDialogBuilder.setTitle("Who to follow?");
+
+            // set dialog message
+            alertDialogBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, int id) {
+                            final String findUsername = usernameInput.getText().toString();
+
+                            if (findUsername.isEmpty() || findUsername == null) {
+                                Toast.makeText(Blip_Map.this, "Please insert a username",
+                                        Toast.LENGTH_SHORT).show();
+                            } else if (findUsername.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString())){
+                                Toast.makeText(Blip_Map.this, "Can't add yourself",
+                                        Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                //TODO:
+                                ref.child("clients").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot usersSnapshot) {
+
+                                        for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                                            String friend = userSnapshot.getKey().toString();
+                                            String username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+
+                                            if (friend.equals(findUsername)) {
+                                                ref.child("clients")
+                                                        .child(username)
+                                                        .child("following")
+                                                        .child(findUsername).setValue("");
+                                                Toast.makeText(Blip_Map.this, "Now Following " + findUsername,
+                                                        Toast.LENGTH_SHORT).show();
+                                                makeList();
+                                                dialog.cancel();
+                                                break;
+                                            }
+                                        }
+                                        Toast.makeText(Blip_Map.this, "No user named " + findUsername,
+                                                Toast.LENGTH_SHORT).show();
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+
+                                });
+
+
+                            }
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // if this button is clicked, just close
+                            // the dialog box and do nothing
+                            dialog.cancel();
+                        }
+                    });
+
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            // show it
+            alertDialog.show();
         } else if (id == R.id.nav_send) {
 
         }
