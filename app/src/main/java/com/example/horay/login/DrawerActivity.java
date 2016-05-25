@@ -1,6 +1,7 @@
 package com.example.horay.login;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -90,9 +91,10 @@ public class DrawerActivity extends AppCompatActivity
 
         if (id == R.id.nav_groups) {
             // Handle the groups action
-            fragmentManager.beginTransaction()
+            /*fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new GroupsFragment())
-                    .commit();
+                    .commit();*/
+
         } else if (id == R.id.nav_settings) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new SettingsFragment())

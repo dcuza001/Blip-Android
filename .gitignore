@@ -38,3 +38,4 @@ Thumbs.db
 build/generated/mockable-android-23.jar
 .idea/workspace.xml
 .idea/gradle.xml
+build/intermediates/dex-cache/cache.xml

@@ -1,10 +1,13 @@
 package com.example.horay.login;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,13 +28,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Map;
 
-public class Login extends AppCompatActivity {
+public class Login extends FragmentActivity {
 
+    private static final int PERMISSION_ALL = 0;
     EditText passwordEditText;
     EditText usernameEditText;
     Button loginButton;
     Button createAccount;
-    private static final int permission = 0;
 
 
     @Override
@@ -43,7 +46,12 @@ public class Login extends AppCompatActivity {
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
         createAccount = (Button) findViewById(R.id.createAccount);
-        requestPermission();
+
+        String[] PERMISSIONS = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+
+        if(!hasPermissions(this, PERMISSIONS)){
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        }
 
         //if already logged in, go straight to map if not do nothing
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -106,66 +114,15 @@ public class Login extends AppCompatActivity {
     }
 
 
-    private void requestPermission(){
-        if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-
-            } else {
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        permission);
-            }
-        }
-
-        if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.CAMERA)) {
-
-            } else {
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CAMERA},
-                        permission);
-
-            }
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case permission: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-
-                } else {
-                    //kill
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(1);
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
                 }
-                return;
             }
-
         }
+        return true;
     }
 
 
