@@ -166,6 +166,8 @@ public class Blip_Map extends FragmentActivity implements OnMapReadyCallback, Lo
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
         blipMapActivity = this;
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
