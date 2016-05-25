@@ -8,6 +8,8 @@
         android:id="@+id/fullname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         android:text="Sample Text"
         android:textSize="25dp"
         android:layout_marginTop="20dp"
@@ -16,10 +18,10 @@
 
     <Button
         android:background="@drawable/remove"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:id="@+id/button"
         android:layout_alignParentRight="true"
-        android:layout_margin="10dp"/>
+        android:layout_margin="15dp"/>
 
 </RelativeLayout>
