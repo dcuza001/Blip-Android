@@ -32,7 +32,7 @@ public class Login extends FragmentActivity {
 
     private static final int PERMISSION_ALL = 0;
     EditText passwordEditText;
-    EditText usernameEditText;
+    EditText emailEditText;
     Button loginButton;
     Button createAccount;
 
@@ -43,7 +43,7 @@ public class Login extends FragmentActivity {
         setContentView(R.layout.activity_login);
 
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        usernameEditText = (EditText) findViewById(R.id.usernameEditText);
+        emailEditText = (EditText) findViewById(R.id.emailEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
         createAccount = (Button) findViewById(R.id.createAccount);
 
@@ -69,12 +69,12 @@ public class Login extends FragmentActivity {
                 DatabaseReference ref = FirebaseDatabase.getInstance()
                         .getReferenceFromUrl("https://blipster.firebaseio.com/");
 
-                String username = usernameEditText.getText().toString();
+                String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
-                if (username.isEmpty() && password.isEmpty()){
-                    Toast.makeText(Login.this, "Please insert an email & password", Toast.LENGTH_SHORT).show();
+                if (email.isEmpty() && password.isEmpty()){
+                    Toast.makeText(Login.this, "Please insert an email & apassword", Toast.LENGTH_SHORT).show();
                 }
-                else if(username.isEmpty()){
+                else if(email.isEmpty()){
                     Toast.makeText(Login.this, "Please insert an email", Toast.LENGTH_SHORT).show();
                 }
                 else if (password.isEmpty()){
@@ -82,7 +82,7 @@ public class Login extends FragmentActivity {
                 }
                 else {
                     FirebaseAuth auth = FirebaseAuth.getInstance();
-                    auth.signInWithEmailAndPassword(username, password)
+                    auth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
