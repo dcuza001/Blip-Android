@@ -20,7 +20,7 @@ public class Blip implements Serializable {
     public String ID;
     public String url;
     public String timestamp;
-    public List<String> replies;
+    public List<Reply> replies;
     public int likes;
     public int dislikes;
 
@@ -36,7 +36,6 @@ public class Blip implements Serializable {
         this.dislikes = 0;
         this.timestamp = new SimpleDateFormat("HH:mm:ss MM/dd").format(new Date());
         this.replies = new ArrayList<>();
-        //this.replies.add("placeholder");
         this.ID = Long.toString(System.currentTimeMillis())+this.owner ;
 
     }

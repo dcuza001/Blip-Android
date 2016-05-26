@@ -5,7 +5,7 @@ package com.example.horay.login;
  */
 public class Reply {
 
-    public String username;
+    public String user;
     public String reply;
 
     Reply(){
@@ -13,7 +13,7 @@ public class Reply {
     }
 
     Reply(String username, String comment){
-        this.username = username;
+        this.user = username;
         this.reply = comment;
     }
 }
