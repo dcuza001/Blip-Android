@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadFactory;
 
 public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener, OnItemSelectedListener
 , GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener{
@@ -89,6 +90,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
     //multi
     MultiSelectionSpinner spinner1;
+
+    final public static String childRefName = "blips";
 
     public Blip blipToSend;
 
@@ -277,7 +280,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         Toast.makeText(getApplicationContext(), "Making markers", Toast.LENGTH_SHORT).show();
 
         //Todo:
-        ref.child("aaa").addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child(childRefName).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot usersSnapshot) {
                 //Blip b = new Blip();
@@ -300,7 +303,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                             }
                         }
                         else {
-                            //Toast.makeText(getApplicationContext(), "Making markers", Toast.LENGTH_SHORT).show();
                             makeMarker(pos,b);
                         }
                     }
@@ -366,8 +368,13 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         loadMarkers();
     }
     public void loadButton(View view){
-        this.recreate();
-        //loadMarkers();
+        //this.recreate();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        loadMarkers();
 
     }
 

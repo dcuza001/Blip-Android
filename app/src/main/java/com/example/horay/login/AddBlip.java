@@ -91,7 +91,7 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
                 Uri uri = taskSnapshot.getDownloadUrl();
                 Log.d("LINK", uri.toString());
                 blipToSend.url = uri.toString();
-                DatabaseReference userRef = ref.child("aaa");
+                DatabaseReference userRef = ref.child(Blip_Map.childRefName);
                 userRef.child(blipToSend.ID).setValue(blipToSend);
 
             }

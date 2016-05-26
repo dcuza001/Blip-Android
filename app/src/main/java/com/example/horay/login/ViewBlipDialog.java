@@ -92,7 +92,7 @@ public class ViewBlipDialog extends DialogFragment {
 
     private void setListeners(){
 
-        final DatabaseReference userRef = ref.child("aaa").child(blip.ID);
+        final DatabaseReference userRef = ref.child(Blip_Map.childRefName).child(blip.ID);
         followButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -143,7 +143,6 @@ public class ViewBlipDialog extends DialogFragment {
                 userRef.child("replies").setValue(replyList);
                 Toast.makeText(getContext(), blip.replies.toString(), Toast.LENGTH_SHORT).show();
                 dataAdapter.notifyDataSetChanged();
-                //dataAdapter.notifyDataSetInvalidated();
             }
         });
 
