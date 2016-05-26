@@ -381,6 +381,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         Intent intent = new Intent(getApplicationContext(), AddBlip.class);
         intent.putExtra("Lat", latitude);
         intent.putExtra("Long", longitude);
+        intent.putExtra("Username",FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString() );
         startActivity(intent);
     }
 
