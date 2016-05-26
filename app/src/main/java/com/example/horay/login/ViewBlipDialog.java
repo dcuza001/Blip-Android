@@ -130,7 +130,7 @@ public class ViewBlipDialog extends DialogFragment {
                 Map<String, Object> updates = new HashMap<>();
                 updates.put("replies", blip.replies);
                 userRef.updateChildren(updates);
-                dataAdapter.notifyDataSetChanged();;
+                dataAdapter.notifyDataSetChanged();
             }
         });
 
