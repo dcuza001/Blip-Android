@@ -2,6 +2,7 @@ package com.example.horay.login;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Contacts;
 import android.support.v4.app.DialogFragment;
@@ -58,6 +59,7 @@ public class ViewBlipDialog extends DialogFragment {
     View view;
     EditText replyText;
 
+    Map<String , Reply> replyMap;
     List<Reply> replyList;
     String username;
 
@@ -138,10 +140,9 @@ public class ViewBlipDialog extends DialogFragment {
             @Override
             public void onClick(View v)
             {
-                replyList.add(new Reply(username, replyText.getText().toString()));
+                replyMap.put(Integer.toString(replyMap.size()), new Reply(username, replyText.getText().toString()));
                 blip.replies = replyList;
-                userRef.child("replies").setValue(replyList);
-                Toast.makeText(getContext(), blip.replies.toString(), Toast.LENGTH_SHORT).show();
+                userRef.child("replies").setValue(replyMap);
                 dataAdapter.notifyDataSetChanged();
             }
         });
@@ -189,11 +190,10 @@ public class ViewBlipDialog extends DialogFragment {
             replyList = blip.replies;
 
         else
-            replyList = new ArrayList<>();
+            replyMap = new HashMap<>();
 
-        //dataAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_2, replyList);
 
-        Adapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_2,replyList){
+        dataAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_2, (List) replyList){
             @Override
             public View getView(int position, View convertView, ViewGroup parent){
                 TwoLineListItem row;
@@ -213,7 +213,7 @@ public class ViewBlipDialog extends DialogFragment {
 
 
         replyView =(ListView) view.findViewById(R.id.listViewReplies) ;
-        replyView.setAdapter((ListAdapter) adapter);
+        replyView.setAdapter( dataAdapter);
 
 
         setFields();

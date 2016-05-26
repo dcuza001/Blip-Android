@@ -1,11 +1,14 @@
 package com.example.horay.login;
 
+import com.google.firebase.database.GenericTypeIndicator;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 /**
  * Created by Ryota on 5/16/2016.
@@ -35,8 +38,9 @@ public class Blip implements Serializable {
         this.likes = 0;
         this.dislikes = 0;
         this.timestamp = new SimpleDateFormat("HH:mm:ss MM/dd").format(new Date());
-        this.replies = new ArrayList<>();
+        this.replies = new ArrayList<Reply>();
         this.ID = Long.toString(System.currentTimeMillis())+this.owner ;
+
 
     }
 
