@@ -129,17 +129,7 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         return color;
     }
 
-    private String convertImgString(ImageView imageView){
 
-        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
-        byte[] bb = bos.toByteArray();
-        return Arrays.toString(bb);
-
-
-    }
 
     private void setupSpinner(){
         spinnerTags.setOnItemSelectedListener( this);
@@ -184,9 +174,11 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_PIC_REQUEST) {
-            Bitmap image = (Bitmap) data.getExtras().get("data");
-            cameraPic.setImageResource(android.R.color.transparent);
-            cameraPic.setImageBitmap(image);
+            if(data.getExtras().get("data") != null) {
+                Bitmap image = (Bitmap) data.getExtras().get("data");
+                cameraPic.setImageResource(android.R.color.transparent);
+                cameraPic.setImageBitmap(image);
+            }
         }
     }
 
