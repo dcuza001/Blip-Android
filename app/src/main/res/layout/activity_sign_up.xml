@@ -26,7 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:hint="xXxAznXxGanstaXBoix"
+        android:hint="Only A-Z, a-z, 0-9, No Spaces"
+        android:digits="0123456789QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"
         />
 
     <TextView

@@ -94,6 +94,10 @@ public class SignUpActivity extends AppCompatActivity{
                     Toast.makeText(SignUpActivity.this, "Password must be longer than 6 characters",
                             Toast.LENGTH_SHORT).show();
                 }
+                else if(username.length() > 0 && username.contains(" ")) {
+                    Toast.makeText(SignUpActivity.this, "Username must not have spaces",
+                            Toast.LENGTH_SHORT).show();
+                }
                 else {
                     if(username != null) {
 
@@ -134,12 +138,12 @@ public class SignUpActivity extends AppCompatActivity{
                                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
                                                                         public void onComplete(@NonNull Task<Void> task) {
-                                                                            if (task.isSuccessful()) {
+                                                                            if (task.isSuccessful()) {/*
                                                                                 Toast.makeText(SignUpActivity.this, "Profile Updated",
-                                                                                        Toast.LENGTH_SHORT).show();
-                                                                            } else {
+                                                                                        Toast.LENGTH_SHORT).show();*/
+                                                                            } else {/*
                                                                                 Toast.makeText(SignUpActivity.this, "Profile failed",
-                                                                                        Toast.LENGTH_SHORT).show();
+                                                                                        Toast.LENGTH_SHORT).show();*/
                                                                             }
                                                                         }
                                                                     });
