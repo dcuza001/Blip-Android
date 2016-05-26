@@ -111,9 +111,8 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/buttonFollow"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
@@ -139,10 +138,8 @@
             android:id="@+id/Tag"
             android:layout_toLeftOf="@+id/TagView"
             android:layout_alignBaseline="@+id/buttonFollow"
-            android:layout_alignBottom="@+id/buttonFollow"
             android:textStyle="bold"
-            android:layout_below="@+id/commentView"
-            android:layout_toEndOf="@+id/commentNum" />
+            android:layout_below="@+id/commentView" />
 
 
 
