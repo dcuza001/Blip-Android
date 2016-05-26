@@ -142,8 +142,8 @@ public class ViewBlipDialog extends DialogFragment {
             {
                 replyList.add(new Reply(username, replyText.getText().toString()));
                 blip.replies = replyList;
-
                 userRef.child("replies").setValue(replyList);
+                replyText.setText("");
                 if(dataAdapter!=null) {
                     dataAdapter.notifyDataSetChanged();
                     //dataAdapter.notifyDataSetInvalidated();

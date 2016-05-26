@@ -373,6 +373,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
             e.printStackTrace();
         }
         loadMarkers();
+        makeList();
 
     }
 
