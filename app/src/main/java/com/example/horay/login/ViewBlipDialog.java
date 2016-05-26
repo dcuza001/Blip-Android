@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,11 +55,26 @@ public class ViewBlipDialog extends DialogFragment {
 
 
     private void setFields(){
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getContext())
+                .defaultDisplayImageOptions(defaultOptions)
+                .build();
+        ImageLoader.getInstance().init(config);
+
+
+
         usernameText.setText(blip.owner);
         commentText.setText(blip.comment);
         numLikes.setText(Integer.toString(blip.likes));
         numDislikes.setText(Integer.toString(blip.dislikes));
         tagView.setText(blip.tag);
+
+        ImageLoader.getInstance().displayImage(blip.pic, image);
+        //Picasso.with(getContext()).load("http://i.imgur.com/DvpvklR.png").into(image);
+
 
     }
 
@@ -112,9 +130,7 @@ public class ViewBlipDialog extends DialogFragment {
                 Map<String, Object> updates = new HashMap<>();
                 updates.put("replies", blip.replies);
                 userRef.updateChildren(updates);
-                dataAdapter.notifyDataSetChanged();;
-
-
+                dataAdapter.notifyDataSetChanged();
             }
         });
 

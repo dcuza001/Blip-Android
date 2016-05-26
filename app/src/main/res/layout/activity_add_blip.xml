@@ -7,19 +7,20 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.horay.login.AddBlip">
+    tools:context="com.example.horay.login.AddBlip"
+    >
 
     <EditText
-        android:gravity="top|left"
         android:background="@drawable/edit_text_background"
+        android:gravity="center"
         android:id="@+id/commentInput"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_weight="1"
         android:scrollHorizontally="false"
-        android:hint="Type your comment here!"
+        android:hint="Type your comment here! 200 Char Max"
         android:inputType="textCapSentences|textMultiLine"
-        android:maxLength="2000"
+        android:maxLength="200"
         android:maxLines="4" />
     <LinearLayout
         android:gravity="center"
@@ -68,7 +69,7 @@
 
     <ImageView
         android:onClick="takePicture"
-        android:src="@drawable/defaulimg"
+        android:src="@drawable/pictureicon"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:id="@+id/cameraPic"
@@ -81,18 +82,38 @@
         android:layout_height="wrap_content"
         android:text="Post!"
         android:id="@+id/post_button"
+        android:background="@drawable/mybutton"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tagText"
+        android:text="Select Tag:"
+        android:textColor="#000000"
+        android:background="@android:color/transparent"
+        android:layout_above="@+id/spinnerTags"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:spinnerMode="dropdown" />
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinnerTags"
-        android:background="@android:color/transparent"
+        android:background="#69BE28"
         android:layout_above="@+id/post_button"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="5dp"
-        android:spinnerMode="dropdown" />
+        android:layout_marginBottom="5dp"
+        android:spinnerMode="dropdown"
+        />
 
 
 

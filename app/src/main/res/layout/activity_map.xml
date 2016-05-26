@@ -80,7 +80,7 @@
             android:layout_alignParentEnd="true" />
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:src="@mipmap/menu"
             android:onClick="openDrawer"
@@ -100,20 +100,20 @@
 
             <ImageButton
                 android:id="@+id/getSelected"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:background="@null"
-                android:src="@mipmap/search"
+                android:src="@drawable/search"
                 />
 
             <com.example.horay.login.MultiSelectionSpinner
                 android:id="@+id/mySpinner1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="left"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/getSelected"
                 android:background="@android:color/transparent"

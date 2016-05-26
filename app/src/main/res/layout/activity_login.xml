@@ -11,13 +11,13 @@ tools:context=".Login">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scaleType="fitXY"
-    android:src="@drawable/forest" />
+    android:src="@drawable/sky" />
 
 <ImageView
     android:id="@+id/translucentLayer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#55000000"/>
+    android:background="#2000af7e"/>
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -29,7 +29,7 @@ tools:context=".Login">
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scaleType="fitCenter"
-        android:src="@drawable/microsoft" />
+        android:src="@drawable/bliplogo"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,14 +38,14 @@ tools:context=".Login">
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/usernameEditText"
+            android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:layout_margin="15dp"
             android:background="@drawable/white_border"
             android:textSize="20dp"
-            android:hint="Username"
+            android:hint="Email"
             android:padding="15dp"
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"

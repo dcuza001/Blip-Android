@@ -17,29 +17,26 @@ public class Blip implements Serializable {
     public double x;
     public double y;
     public String tag;
-    public String group = "default";
-    public String type = "default";
-    public String ID = UUID.randomUUID().toString();
+    public String ID;
     public String pic;
     public String timeStamp;
     public List<String> replies;
     public int likes;
     public int dislikes;
 
-    public Blip(String username, double x, double y, String comment, String tag, String group ,String type, String image) {
+    public Blip(String username, double x, double y, String comment, String tag, String pic ) {
 
-        this.owner = "ryocsaito@gmail.com";
+        this.owner = "ryota";
         this.x = x;
         this.y = y;
         this.comment = comment;
         this.tag = tag;
-        this.group = group;
-        this.type = type;
-        this.pic = image;
+        this.pic = "";
         this.likes = 0;
         this.dislikes = 0;
         this.timeStamp = new SimpleDateFormat("HH:mm:ss MM/dd").format(new Date());
         this.replies = new ArrayList<>();
+        this.ID = Long.toString(System.currentTimeMillis())+this.owner ;
 
     }
 
@@ -47,10 +44,5 @@ public class Blip implements Serializable {
     public Blip() {
     }
 
-//    private String findDate() {
-//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//        Date date = new Date();
-//        return dateFormat.format(date);
-//    }
 }
 

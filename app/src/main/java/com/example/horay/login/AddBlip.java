@@ -3,9 +3,12 @@ package com.example.horay.login;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,18 +19,26 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import com.google.android.gms.maps.model.TileProvider;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     EditText commentText;
@@ -38,15 +49,55 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
 
     int CAMERA_PIC_REQUEST;
     int color;
+    String picLoc = "";
 
     String tag = "Default";
 
+    Blip blipToSend;
     double latitude;
     double longitude;
-
+    String url;
     DatabaseReference ref = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://blipster.firebaseio.com/");
 
+    private void uploadData(String ID){
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://project-9136517748583089120.appspot.com");
+
+        cameraPic.setDrawingCacheEnabled(true);
+        cameraPic.buildDrawingCache();
+        Bitmap bitmap = cameraPic.getDrawingCache();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        // Create a reference to 'images/mountains.jpg'
+        StorageReference mountainImagesRef = storageRef.child("images/" + ID
+        + ".jpg");
+
+        UploadTask uploadTask = mountainImagesRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+
+
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                Uri uri = taskSnapshot.getDownloadUrl();
+                Log.d("LINK", uri.toString());
+                blipToSend.pic = uri.toString();
+                DatabaseReference userRef = ref.child("blips_ryota");
+                userRef.child(blipToSend.ID).setValue(blipToSend);
+            }
+        });
+
+
+    }
 
 
     private int getMarkerColor(RadioGroup rg){
@@ -78,17 +129,7 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         return color;
     }
 
-    private String convertImgString(ImageView imageView){
 
-        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
-        byte[] bb = bos.toByteArray();
-        return Arrays.toString(bb);
-
-
-    }
 
     private void setupSpinner(){
         spinnerTags.setOnItemSelectedListener( this);
@@ -99,10 +140,8 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         categories.add("Business Services");
         categories.add("Computers");
         categories.add("Education");
-        categories.add("Friends");
         categories.add("Personal");
         categories.add("Travel");
-        categories.add("ryocsaito@gmail.com");
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
@@ -135,9 +174,11 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_PIC_REQUEST) {
-            Bitmap image = (Bitmap) data.getExtras().get("data");
-            cameraPic.setImageResource(android.R.color.transparent);
-            cameraPic.setImageBitmap(image);
+            if(data.getExtras().get("data") != null) {
+                Bitmap image = (Bitmap) data.getExtras().get("data");
+                cameraPic.setImageResource(android.R.color.transparent);
+                cameraPic.setImageBitmap(image);
+            }
         }
     }
 
@@ -154,23 +195,14 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         String comment = commentText.getText().toString();
         String s = tag;
         int color = getMarkerColor(rg);
-        String imageBase64 = convertImgString(cameraPic);
 
         //make marker
-        Blip b = new Blip("ryocsaito@gmail.com", latitude, longitude, comment, s ,"Default", "Default", imageBase64);
-        Map<String, String> postID = new HashMap<>() ;
-        Map<String, Blip> postBlip = new HashMap<>() ;
-
-        postBlip.put(b.ID, b);
-
-        DatabaseReference userRef = ref.child("blips_ryota");
-        userRef.push().setValue(postBlip);
-
-        //userRef = ref.child("blips_ryota").child(b.ID);
-
-
-
+        blipToSend = new Blip("ryocsaito@gmail.com", latitude, longitude, comment, s , "Default");
+        uploadData(blipToSend.ID);
         this.finish();
+
+
+
     }
 
 
