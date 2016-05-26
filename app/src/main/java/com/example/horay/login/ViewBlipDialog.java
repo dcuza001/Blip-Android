@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,9 @@ public class ViewBlipDialog extends DialogFragment {
     Blip blip;
 
     View view;
+    EditText replyText;
+
+    List<String> replyList;
 
     ArrayAdapter<String> dataAdapter;
     DatabaseReference ref = FirebaseDatabase.getInstance()
@@ -72,7 +76,7 @@ public class ViewBlipDialog extends DialogFragment {
         numDislikes.setText(Integer.toString(blip.dislikes));
         tagView.setText(blip.tag);
 
-        ImageLoader.getInstance().displayImage(blip.pic, image);
+        ImageLoader.getInstance().displayImage(blip.url, image);
         //Picasso.with(getContext()).load("http://i.imgur.com/DvpvklR.png").into(image);
 
 
@@ -80,10 +84,7 @@ public class ViewBlipDialog extends DialogFragment {
 
     private void setListeners(){
 
-        String ID = blip.ID;
-        final DatabaseReference userRef = ref.child("blips_ryota").child(blip.ID);
-
-
+        final DatabaseReference userRef = ref.child("aaa").child(blip.ID);
         followButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -122,15 +123,16 @@ public class ViewBlipDialog extends DialogFragment {
 
         replyButton.setOnClickListener(new View.OnClickListener()
         {
+
             @Override
             public void onClick(View v)
             {
-                String s = "This is a reply!";
-                blip.replies.add(s);
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("replies", blip.replies);
-                userRef.updateChildren(updates);
+                replyList.add(replyText.getText().toString());
+                blip.replies = replyList;
+                userRef.child("replies").setValue(replyList);
+                Toast.makeText(getContext(), blip.replies.toString(), Toast.LENGTH_SHORT).show();
                 dataAdapter.notifyDataSetChanged();
+                dataAdapter.notifyDataSetInvalidated();
             }
         });
 
@@ -156,6 +158,8 @@ public class ViewBlipDialog extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        replyText = (EditText)view.findViewById(R.id.editTextReply);
+
         image = (ImageView) view.findViewById(R.id.BlipImage);
         likeImage = (ImageView) view.findViewById(R.id.LikeImg);
         dislikeImage = (ImageView) view.findViewById(R.id.DislikeImg);
@@ -170,9 +174,15 @@ public class ViewBlipDialog extends DialogFragment {
         followButton = (Button) view.findViewById(R.id.buttonFollow);
         replyButton = (Button) view.findViewById(R.id.replyButton);
 
-//        dataAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, blip.replies);
-//        replyView =(ListView) view.findViewById(R.id.listViewReplies) ;
-//        replyView.setAdapter(dataAdapter);
+        if(blip.replies != null)
+            replyList = blip.replies;
+
+        else
+            replyList = new ArrayList<>();
+
+        dataAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, replyList);
+        replyView =(ListView) view.findViewById(R.id.listViewReplies) ;
+        replyView.setAdapter(dataAdapter);
 
 
         setFields();

@@ -140,7 +140,10 @@
             android:layout_toLeftOf="@+id/TagView"
             android:layout_alignBaseline="@+id/buttonFollow"
             android:layout_alignBottom="@+id/buttonFollow"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_below="@+id/commentView"
+            android:layout_toEndOf="@+id/commentNum" />
+
 
 
         <TextView
@@ -154,7 +157,7 @@
 
         <ListView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/listViewReplies"
             android:layout_marginTop="68dp"
             android:layout_below="@+id/buttonFollow"
@@ -170,6 +173,16 @@
             android:id="@+id/replyButton"
             android:layout_below="@+id/TagView"
             android:layout_alignEnd="@+id/BlipImage" />
+
+        <EditText
+            android:hint="Enter text here!"
+            android:inputType="textMultiLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextReply"
+            android:layout_alignBottom="@+id/replyButton"
+            android:layout_alignStart="@+id/listViewReplies"
+            android:layout_toStartOf="@+id/replyButton" />
 
     </RelativeLayout>
 
