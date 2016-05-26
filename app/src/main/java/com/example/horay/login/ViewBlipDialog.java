@@ -59,7 +59,6 @@ public class ViewBlipDialog extends DialogFragment {
     View view;
     EditText replyText;
 
-    Map<String , Reply> replyMap;
     List<Reply> replyList;
     String username;
 
@@ -100,6 +99,7 @@ public class ViewBlipDialog extends DialogFragment {
             @Override
             public void onClick(View v)
             {
+                Toast.makeText(getContext(), "following!", Toast.LENGTH_SHORT).show();
                 ref.child("clients")
                         .child(username)
                         .child("following")
@@ -140,10 +140,14 @@ public class ViewBlipDialog extends DialogFragment {
             @Override
             public void onClick(View v)
             {
-                replyMap.put(Integer.toString(replyMap.size()), new Reply(username, replyText.getText().toString()));
+                replyList.add(new Reply(username, replyText.getText().toString()));
                 blip.replies = replyList;
-                userRef.child("replies").setValue(replyMap);
-                dataAdapter.notifyDataSetChanged();
+
+                userRef.child("replies").setValue(replyList);
+                if(dataAdapter!=null) {
+                    dataAdapter.notifyDataSetChanged();
+                    //dataAdapter.notifyDataSetInvalidated();
+                }
             }
         });
 
@@ -190,7 +194,7 @@ public class ViewBlipDialog extends DialogFragment {
             replyList = blip.replies;
 
         else
-            replyMap = new HashMap<>();
+            replyList = new ArrayList<>();
 
 
         dataAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_2, (List) replyList){

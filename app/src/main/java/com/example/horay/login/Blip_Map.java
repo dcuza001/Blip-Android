@@ -285,7 +285,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
                 //Blip b = new Blip();
                 for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
                     String s = userSnapshot.getKey();
-                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
                     Blip b = userSnapshot.getValue(Blip.class);
                     LatLng pos = new LatLng(b.x, b.y);
                     if (insideCircle(pos, searchCircle)) {

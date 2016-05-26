@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/findUser"
-        android:hint="Name of who to follow"
+        android:hint="Username of who to follow"
         android:singleLine="true"
         android:textSize="25dp"
         />
