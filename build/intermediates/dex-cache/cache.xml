@@ -110,7 +110,7 @@
         jar="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="9c02bdcf988b5ba36d920c775bf59b6f0b092443">
+        sha1="00b656fdd9cfc73a5926a63eec02cf5ca87ffeff">
         <dex dex="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_2ae09b1a91f0f4c0aeaf1f8a1c0e07a8ca56ac8e\classes.dex" />
     </item>
     <item
@@ -145,7 +145,7 @@
         jar="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="8f307bb62841bf79cf9de0099fae8f7eba427838">
+        sha1="1b8fe8fbd3f7b3c0b8055e3c5f45676c873594da">
         <dex dex="C:\Users\Ryota\Documents\AndroidStudio\blip-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_517e9f377620c5e166f5b1977559265626d988de\classes.dex" />
     </item>
     <item

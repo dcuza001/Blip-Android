@@ -165,8 +165,8 @@
             android:layout_height="wrap_content"
             android:text="Add Reply"
             android:id="@+id/replyButton"
-            android:layout_alignParentBottom="true"
-            android:layout_alignEnd="@+id/commentView" />
+            android:layout_below="@+id/TagView"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 
