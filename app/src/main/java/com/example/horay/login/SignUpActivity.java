@@ -19,8 +19,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.security.Signature;
 import java.util.Map;
@@ -92,58 +95,90 @@ public class SignUpActivity extends AppCompatActivity{
                             Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    auth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    final boolean[] addname = {false};
+                    if(username != null) {
+
+                            ref.child("clients").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
+                                public void onDataChange(DataSnapshot usersSnapshot) {
 
+                                    for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                                        String usernames = userSnapshot.getKey().toString();
 
-
-                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-                                        //TODO:Display Picture
-                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                .setDisplayName(username)
-                                                .setPhotoUri(Uri.parse("test"))
-                                                .build();
-
-                                        user.updateProfile(profileUpdates)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if(task.isSuccessful()){
-                                                            Toast.makeText(SignUpActivity.this, "Profile Updated",
-                                                                    Toast.LENGTH_SHORT).show();
-                                                        }
-                                                        else{
-                                                            Toast.makeText(SignUpActivity.this, "Profile failed",
-                                                                    Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
-                                                });
-                                        DatabaseReference clientsRef = ref.child("clients").child(username);
-                                        User info = new User(email, password);
-                                        clientsRef.setValue(info);
-                                        clientsRef.child("following").setValue("");
-
-                                        finish();
+                                        if (usernames.equals(username)) {
+                                            addname[0] = true;
+                                        }
                                     }
+                                }
 
-                                    // If sign in fails, display a message to the user. If sign in succeeds
-                                    // the auth state listener will be notified and logic to handle the
-                                    // signed in user can be handled in the listener.
-                                    if (!task.isSuccessful()) {
-                                        Toast.makeText(SignUpActivity.this, "Account Creation failed.\n Email is invalid",
-                                                Toast.LENGTH_SHORT).show();
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                                    }
-                                    //When testing use this
+                                }
+
+
+                            });
+
+                    }
+                    if(addname[0] == true){
+                        auth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+
+
+
+                                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                                            //TODO:Display Picture
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setDisplayName(username)
+                                                    .setPhotoUri(Uri.parse("test"))
+                                                    .build();
+
+                                            user.updateProfile(profileUpdates)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if(task.isSuccessful()){
+                                                                Toast.makeText(SignUpActivity.this, "Profile Updated",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                            }
+                                                            else{
+                                                                Toast.makeText(SignUpActivity.this, "Profile failed",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                    });
+                                            DatabaseReference clientsRef = ref.child("clients").child(username);
+                                            User info = new User(email, password);
+                                            clientsRef.setValue(info);
+                                            clientsRef.child("following").setValue("");
+
+                                            finish();
+                                        }
+
+                                        // If sign in fails, display a message to the user. If sign in succeeds
+                                        // the auth state listener will be notified and logic to handle the
+                                        // signed in user can be handled in the listener.
+                                        if (!task.isSuccessful()) {
+                                            Toast.makeText(SignUpActivity.this, "Account Creation failed.\n Email is invalid",
+                                                    Toast.LENGTH_SHORT).show();
+
+                                        }
+                                        //When testing use this
                                     /*Toast.makeText(SignUpActivity.this, emailEditText.getText().toString() +
                                                     passwordEditText.getText().toString(),
                                             Toast.LENGTH_SHORT).show();*/
-                                }
-                            });
+                                    }
+                                });
+                    }
+                    else{
+                        Toast.makeText(SignUpActivity.this, "Account Creation failed.\n username is invalid",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
 
