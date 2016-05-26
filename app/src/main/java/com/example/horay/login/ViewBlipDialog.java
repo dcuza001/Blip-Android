@@ -172,7 +172,7 @@ public class ViewBlipDialog extends DialogFragment {
         tagView = (TextView)view.findViewById(R.id.TagView);
 
         followButton = (Button) view.findViewById(R.id.buttonFollow);
-        replyButton = (Button) view.findViewById(R.id.post_reply);
+        replyButton = (Button) view.findViewById(R.id.replyButton);
 
         if(blip.replies != null)
 
