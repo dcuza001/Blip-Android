@@ -20,7 +20,7 @@ public class Blip implements Serializable {
     public String ID;
     public String url;
     public String timestamp;
-    public List<String> replies;
+    public List<Reply> replies;
     public int likes;
     public int dislikes;
 

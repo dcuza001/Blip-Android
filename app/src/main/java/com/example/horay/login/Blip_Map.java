@@ -437,6 +437,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         Toast.makeText(this, blipToSend.owner, Toast.LENGTH_SHORT ).show();
         Bundle bundle = new Bundle();
         bundle.putSerializable("BlipObj", blipToSend);
+        bundle.putSerializable("Username", FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString());
 
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         ViewBlipDialog fragment = new ViewBlipDialog();

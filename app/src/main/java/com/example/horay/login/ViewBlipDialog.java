@@ -1,20 +1,27 @@
 package com.example.horay.login;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TwoLineListItem;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -51,7 +58,8 @@ public class ViewBlipDialog extends DialogFragment {
     View view;
     EditText replyText;
 
-    List<String> replyList;
+    List<Reply> replyList;
+    String username;
 
     ArrayAdapter<String> dataAdapter;
     DatabaseReference ref = FirebaseDatabase.getInstance()
@@ -90,7 +98,10 @@ public class ViewBlipDialog extends DialogFragment {
             @Override
             public void onClick(View v)
             {
-
+                ref.child("clients")
+                        .child(username)
+                        .child("following")
+                        .child(blip.owner).setValue("");
             }
         });
 
@@ -127,12 +138,12 @@ public class ViewBlipDialog extends DialogFragment {
             @Override
             public void onClick(View v)
             {
-                replyList.add(replyText.getText().toString());
+                replyList.add(new Reply(username, replyText.getText().toString()));
                 blip.replies = replyList;
                 userRef.child("replies").setValue(replyList);
                 Toast.makeText(getContext(), blip.replies.toString(), Toast.LENGTH_SHORT).show();
                 dataAdapter.notifyDataSetChanged();
-                dataAdapter.notifyDataSetInvalidated();
+                //dataAdapter.notifyDataSetInvalidated();
             }
         });
 
@@ -148,6 +159,7 @@ public class ViewBlipDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
         blip = (Blip) bundle.getSerializable("BlipObj");
+        username = (String)bundle.getSerializable("Username");
         view =  inflater.inflate(R.layout.fragment_view_blip, container, false);
 
 
@@ -180,9 +192,29 @@ public class ViewBlipDialog extends DialogFragment {
         else
             replyList = new ArrayList<>();
 
-        dataAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, replyList);
+        //dataAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_2, replyList);
+
+        Adapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_2,replyList){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                TwoLineListItem row;
+                if(convertView == null){
+                    LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    row = (TwoLineListItem)inflater.inflate(android.R.layout.simple_list_item_2, null);
+                }else{
+                    row = (TwoLineListItem)convertView;
+                }
+                Reply data = replyList.get(position);
+                row.getText1().setText(data.reply);
+                row.getText2().setText(data.user);
+
+                return row;
+            }
+        };
+
+
         replyView =(ListView) view.findViewById(R.id.listViewReplies) ;
-        replyView.setAdapter(dataAdapter);
+        replyView.setAdapter((ListAdapter) adapter);
 
 
         setFields();
