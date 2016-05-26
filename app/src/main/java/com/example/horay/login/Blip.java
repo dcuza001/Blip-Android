@@ -26,7 +26,7 @@ public class Blip implements Serializable {
 
     public Blip(String username, double x, double y, String comment, String tag, String pic ) {
 
-        this.owner = "ryota";
+        this.owner = username;
         this.x = x;
         this.y = y;
         this.comment = comment;
@@ -36,6 +36,7 @@ public class Blip implements Serializable {
         this.dislikes = 0;
         this.timeStamp = new SimpleDateFormat("HH:mm:ss MM/dd").format(new Date());
         this.replies = new ArrayList<>();
+        //this.replies.add("placeholder");
         this.ID = Long.toString(System.currentTimeMillis())+this.owner ;
 
     }

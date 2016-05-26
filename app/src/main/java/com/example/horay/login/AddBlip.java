@@ -93,6 +93,7 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
                 blipToSend.pic = uri.toString();
                 DatabaseReference userRef = ref.child("blips_ryota");
                 userRef.child(blipToSend.ID).setValue(blipToSend);
+
             }
         });
 

@@ -366,7 +366,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         loadMarkers();
     }
     public void loadButton(View view){
-        loadMarkers();
+        this.recreate();
+        //loadMarkers();
 
     }
 

@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,11 +127,14 @@ public class ViewBlipDialog extends DialogFragment {
             public void onClick(View v)
             {
                 String s = "This is a reply!";
-                blip.replies.add(s);
+                List <String> list = new ArrayList<>();
+                list.add(s);
+                list.add("Second Reply!");
                 Map<String, Object> updates = new HashMap<>();
-                updates.put("replies", blip.replies);
+                updates.put("replies", list);
                 userRef.updateChildren(updates);
-                dataAdapter.notifyDataSetChanged();
+                if(blip.replies != null)
+                    dataAdapter.notifyDataSetChanged();
             }
         });
 
@@ -170,9 +174,11 @@ public class ViewBlipDialog extends DialogFragment {
         followButton = (Button) view.findViewById(R.id.buttonFollow);
         replyButton = (Button) view.findViewById(R.id.replyButton);
 
-//        dataAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, blip.replies);
-//        replyView =(ListView) view.findViewById(R.id.listViewReplies) ;
-//        replyView.setAdapter(dataAdapter);
+        if(blip.replies != null)
+
+            dataAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, blip.replies);
+            replyView =(ListView) view.findViewById(R.id.listViewReplies) ;
+            replyView.setAdapter(dataAdapter);
 
 
         setFields();
