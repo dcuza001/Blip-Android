@@ -49,6 +49,9 @@ public class ViewBlipDialog extends DialogFragment {
     Blip blip;
 
     View view;
+    EditText replyText;
+
+    List<String> replyList;
 
     ArrayAdapter<String> dataAdapter;
     DatabaseReference ref = FirebaseDatabase.getInstance()
@@ -81,10 +84,7 @@ public class ViewBlipDialog extends DialogFragment {
 
     private void setListeners(){
 
-        String ID = blip.ID;
-        final DatabaseReference userRef = ref.child("blips_ryota").child(blip.ID);
-
-
+        final DatabaseReference userRef = ref.child("aaa").child(blip.ID);
         followButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -123,18 +123,13 @@ public class ViewBlipDialog extends DialogFragment {
 
         replyButton.setOnClickListener(new View.OnClickListener()
         {
+
             @Override
             public void onClick(View v)
             {
-                String s = "This is a reply!";
-                List <String> list = new ArrayList<>();
-                list.add(s);
-                list.add("Second Reply!");
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("replies", list);
-                userRef.updateChildren(updates);
-                if(blip.replies != null)
-                    dataAdapter.notifyDataSetChanged();
+                replyList.add(replyText.getText().toString());
+                userRef.child("replies").setValue(replyList);
+                dataAdapter.notifyDataSetChanged();
             }
         });
 
@@ -160,6 +155,8 @@ public class ViewBlipDialog extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        replyText = (EditText)view.findViewById(R.id.editTextReply);
+
         image = (ImageView) view.findViewById(R.id.BlipImage);
         likeImage = (ImageView) view.findViewById(R.id.LikeImg);
         dislikeImage = (ImageView) view.findViewById(R.id.DislikeImg);
@@ -175,10 +172,14 @@ public class ViewBlipDialog extends DialogFragment {
         replyButton = (Button) view.findViewById(R.id.replyButton);
 
         if(blip.replies != null)
+            replyList = blip.replies;
 
-            dataAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, blip.replies);
-            replyView =(ListView) view.findViewById(R.id.listViewReplies) ;
-            replyView.setAdapter(dataAdapter);
+        else
+            replyList = new ArrayList<>();
+
+        dataAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, replyList);
+        replyView =(ListView) view.findViewById(R.id.listViewReplies) ;
+        replyView.setAdapter(dataAdapter);
 
 
         setFields();

@@ -277,7 +277,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         Toast.makeText(getApplicationContext(), "Making markers", Toast.LENGTH_SHORT).show();
 
         //Todo:
-        ref.child("blips_ryota").addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child("aaa").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot usersSnapshot) {
                 //Blip b = new Blip();
