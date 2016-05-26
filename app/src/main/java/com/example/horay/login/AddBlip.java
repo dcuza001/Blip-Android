@@ -52,7 +52,7 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
     String picLoc = "";
 
     String tag = "Default";
-
+    String username;
     Blip blipToSend;
     double latitude;
     double longitude;
@@ -129,17 +129,7 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         return color;
     }
 
-    private String convertImgString(ImageView imageView){
 
-        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
-        byte[] bb = bos.toByteArray();
-        return Arrays.toString(bb);
-
-
-    }
 
     private void setupSpinner(){
         spinnerTags.setOnItemSelectedListener( this);
@@ -171,22 +161,23 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         Intent intent = getIntent();
         latitude = intent.getExtras().getDouble("Lat");
         longitude = intent.getExtras().getDouble("Long");
+        username = intent.getExtras().getString("Username");
 
         commentText = (EditText)findViewById(R.id.commentInput);
         cameraPic = (ImageView)findViewById(R.id.cameraPic);
         rg = (RadioGroup)findViewById(R.id.colorGroup);
         spinnerTags = (Spinner) findViewById(R.id.spinnerTags);
         setupSpinner();
-
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_PIC_REQUEST) {
-            Bitmap image = (Bitmap) data.getExtras().get("data");
-            cameraPic.setImageResource(android.R.color.transparent);
-            cameraPic.setImageBitmap(image);
+            if(data.getExtras().get("data") != null) {
+                Bitmap image = (Bitmap) data.getExtras().get("data");
+                cameraPic.setImageResource(android.R.color.transparent);
+                cameraPic.setImageBitmap(image);
+            }
         }
     }
 
@@ -205,7 +196,7 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         int color = getMarkerColor(rg);
 
         //make marker
-        blipToSend = new Blip("ryocsaito@gmail.com", latitude, longitude, comment, s , "Default");
+        blipToSend = new Blip(username, latitude, longitude, comment, s , "Default");
         uploadData(blipToSend.ID);
         this.finish();
 
