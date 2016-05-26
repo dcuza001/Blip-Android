@@ -168,8 +168,6 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         rg = (RadioGroup)findViewById(R.id.colorGroup);
         spinnerTags = (Spinner) findViewById(R.id.spinnerTags);
         setupSpinner();
-
-
     }
 
     @Override
