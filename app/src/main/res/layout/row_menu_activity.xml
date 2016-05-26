@@ -20,7 +20,7 @@
         android:background="@drawable/remove"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:id="@+id/button"
+        android:id="@+id/removeFollowing"
         android:layout_alignParentRight="true"
         android:layout_margin="15dp"/>
 
