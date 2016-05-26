@@ -61,6 +61,7 @@
             android:label="@string/title_activity_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddBlip" />
+        <activity android:name=".EnterText"></activity>
     </application>
 
 </manifest>
