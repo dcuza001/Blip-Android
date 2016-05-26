@@ -9,6 +9,7 @@ import android.app.FragmentTransaction;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -343,14 +344,24 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-
-        mMap.setMyLocationEnabled(true);
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String bestProvider = locationManager.getBestProvider(criteria, true);
-        location = locationManager.getLastKnownLocation(bestProvider);
 
-        LatLng latLngCenter = new LatLng(location.getLatitude(), location.getLongitude());
+
+        mMap.setMyLocationEnabled(true);
+        //location = locationManager.getLastKnownLocation(bestProvider);
+
+        locationManager = (LocationManager)getSystemService
+                (Context.LOCATION_SERVICE);
+
+        location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        LatLng latLngCenter = new LatLng(latitude, longitude);
         mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(latLngCenter , 16) );
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
@@ -569,6 +580,8 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
             super.onBackPressed();
         }
     }
+
+
 
 }
 
