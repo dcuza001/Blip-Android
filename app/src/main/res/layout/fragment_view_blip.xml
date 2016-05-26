@@ -113,13 +113,13 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Follow"
+
             android:id="@+id/buttonFollow"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:layout_below="@+id/relativeLayout"
-            android:layout_alignStart="@+id/replyButton"
-            android:background="@drawable/mybutton"/>
+            android:background="@drawable/ic_menu_invite"
+            android:layout_below="@+id/usernameView"
+            android:layout_alignStart="@+id/usernameView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -127,9 +127,10 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
             android:id="@+id/TagView"
-            android:layout_below="@+id/buttonFollow"
             android:textStyle="bold"
-            android:layout_alignStart="@+id/buttonFollow" />
+            android:layout_alignBaseline="@+id/buttonFollow"
+            android:layout_alignBottom="@+id/buttonFollow"
+            android:layout_alignStart="@+id/replyButton" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -146,8 +147,8 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Comments : 0"
             android:id="@+id/commentNum"
-            android:layout_alignBottom="@+id/buttonFollow"
-            android:layout_alignStart="@+id/usernameView"/>
+            android:layout_below="@+id/replyButton"
+            android:layout_alignStart="@+id/buttonFollow" />
 
         <ListView
             android:layout_width="wrap_content"
@@ -166,7 +167,7 @@
             android:text="Add Reply"
             android:id="@+id/replyButton"
             android:layout_below="@+id/TagView"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignEnd="@+id/BlipImage" />
 
     </RelativeLayout>
 

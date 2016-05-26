@@ -65,7 +65,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     private static final int CONTENT_VIEW_ID = 10101010;
     private GoogleMap mMap;
     private Circle searchCircle;
-    private int radiusValue = 600;
+    private int radiusValue = 1000;
 
     FloatingActionButton pinButton;
     Location location;
