@@ -76,7 +76,7 @@ public class ViewBlipDialog extends DialogFragment {
         numDislikes.setText(Integer.toString(blip.dislikes));
         tagView.setText(blip.tag);
 
-        ImageLoader.getInstance().displayImage(blip.pic, image);
+        ImageLoader.getInstance().displayImage(blip.url, image);
         //Picasso.with(getContext()).load("http://i.imgur.com/DvpvklR.png").into(image);
 
 
@@ -128,8 +128,11 @@ public class ViewBlipDialog extends DialogFragment {
             public void onClick(View v)
             {
                 replyList.add(replyText.getText().toString());
+                blip.replies = replyList;
                 userRef.child("replies").setValue(replyList);
+                Toast.makeText(getContext(), blip.replies.toString(), Toast.LENGTH_SHORT).show();
                 dataAdapter.notifyDataSetChanged();
+                dataAdapter.notifyDataSetInvalidated();
             }
         });
 

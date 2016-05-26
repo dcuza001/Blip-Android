@@ -90,7 +90,7 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri uri = taskSnapshot.getDownloadUrl();
                 Log.d("LINK", uri.toString());
-                blipToSend.pic = uri.toString();
+                blipToSend.url = uri.toString();
                 DatabaseReference userRef = ref.child("aaa");
                 userRef.child(blipToSend.ID).setValue(blipToSend);
 
