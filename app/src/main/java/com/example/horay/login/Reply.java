@@ -1,9 +1,11 @@
 package com.example.horay.login;
 
+import java.io.Serializable;
+
 /**
  * Created by Ryota on 5/26/2016.
  */
-public class Reply {
+public class Reply implements Serializable {
 
     public String user;
     public String reply;
