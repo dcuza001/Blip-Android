@@ -84,7 +84,7 @@ public class ViewBlipDialog extends DialogFragment {
         numLikes.setText(Integer.toString(blip.likes));
         numDislikes.setText(Integer.toString(blip.dislikes));
         tagView.setText(blip.tag);
-
+        numReplies.setText("Comments: " + replyList.size());
         ImageLoader.getInstance().displayImage(blip.url, image);
         //Picasso.with(getContext()).load("http://i.imgur.com/DvpvklR.png").into(image);
 
@@ -142,6 +142,8 @@ public class ViewBlipDialog extends DialogFragment {
             {
                 replyList.add(new Reply(username, replyText.getText().toString()));
                 blip.replies = replyList;
+                numReplies.setText("Comments: " + replyList.size());
+
                 userRef.child("replies").setValue(replyList);
                 replyText.setText("");
                 if(dataAdapter!=null) {
