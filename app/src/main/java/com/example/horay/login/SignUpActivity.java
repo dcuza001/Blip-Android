@@ -48,8 +48,6 @@ public class SignUpActivity extends AppCompatActivity{
         signUpButton = (Button) findViewById(R.id.signUpButton);
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
 
-
-
         //Email works as long as you include @ and .com
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override

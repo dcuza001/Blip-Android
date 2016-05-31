@@ -58,19 +58,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadFactory;
 
 public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener, OnItemSelectedListener
 , GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener{
 
     public static Activity blipMapActivity;
 
-    private static final int CONTENT_VIEW_ID = 10101010;
     private GoogleMap mMap;
     private Circle searchCircle;
     private int radiusValue = 1000;
-
-    FloatingActionButton pinButton;
     Location location;
 
     DatabaseReference ref = FirebaseDatabase.getInstance()
@@ -85,16 +81,14 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     private NavigationView nvDrawer;
     private ActionBarDrawerToggle drawerToggle;
 
-    TextView emailNavHeader;
     List<String> categories;
 
     //multi
     MultiSelectionSpinner spinner1;
 
     final public static String childRefName = "blips";
-
+    static public String firebaseUser;
     public Blip blipToSend;
-
     public Blip getBlipObject(){
         return blipToSend;
     }
@@ -112,7 +106,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         categories.add("Travel");
 
         //final Semaphore semaphore = new Semaphore(0);
-        final String username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        final String username = firebaseUser;
         categories.add(username);
         //TODO:
         if(username != null) {
@@ -225,8 +219,9 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
             View header = navigationView.getHeaderView(0);
 
             //Set the email
+            firebaseUser = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
             String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-            String name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            String name = firebaseUser;
 
 
             TextView emailNavHeader;
@@ -330,23 +325,48 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMyLocationEnabled(true);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+        // Getting LocationManager object from System Service LOCATION_SERVICE
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        // Creating a criteria object to retrieve provider
         Criteria criteria = new Criteria();
-        String bestProvider = locationManager.getBestProvider(criteria, true);
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
 
+        // Getting the name of the best provider
+        String provider = locationManager.getBestProvider(criteria, true);
 
-        mMap.setMyLocationEnabled(true);
-        //location = locationManager.getLastKnownLocation(bestProvider);
+        // Getting Current Location
+        location = locationManager.getLastKnownLocation(provider);
 
-        locationManager = (LocationManager)getSystemService
-                (Context.LOCATION_SERVICE);
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location l) {
+                location = l;
+            }
 
-        location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
 
+            }
 
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                Toast.makeText(getApplicationContext(),"Lost connection!", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        locationManager.requestLocationUpdates(provider, 1000, 0, locationListener);
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 
@@ -402,7 +422,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         Intent intent = new Intent(getApplicationContext(), AddBlip.class);
         intent.putExtra("Lat", latitude);
         intent.putExtra("Long", longitude);
-        intent.putExtra("Username",FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString() );
+        intent.putExtra("Username",FirebaseAuth.getInstance().getCurrentUser().getDisplayName() );
         startActivity(intent);
     }
 
@@ -445,7 +465,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         //Toast.makeText(this, blipToSend.owner, Toast.LENGTH_SHORT ).show();
         Bundle bundle = new Bundle();
         bundle.putSerializable("BlipObj", blipToSend);
-        bundle.putSerializable("Username", FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString());
+        bundle.putSerializable("Username", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
 
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         ViewBlipDialog fragment = new ViewBlipDialog();
@@ -514,7 +534,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
                                         for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
                                             String friend = userSnapshot.getKey().toString();
-                                            String username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                                            String username = firebaseUser;
 
                                             if (friend.equals(findUsername)) {
                                                 ref.child("clients")
