@@ -367,6 +367,18 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         };
 
         locationManager.requestLocationUpdates(provider, 1000, 0, locationListener);
+
+        if(location == null) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        }
+        if(location == null){
+            locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 1000, 0, locationListener);
+            location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+        }
+
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 
