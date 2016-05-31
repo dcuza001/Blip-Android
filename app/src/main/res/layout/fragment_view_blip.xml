@@ -152,14 +152,30 @@
             android:layout_below="@+id/replyButton"
             android:layout_alignStart="@+id/buttonFollow" />
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/listViewReplies"
-            android:layout_marginTop="68dp"
-            android:layout_below="@+id/buttonFollow"
-            android:layout_alignStart="@+id/commentView" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/commentNum">
 
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="207dp"
+                android:id="@+id/listViewReplies"
+                android:layout_marginTop="0dp"
+                android:layout_below="@+id/buttonFollow"
+                android:layout_alignStart="@+id/commentView"
+                android:layout_weight="0.04"
+                android:scrollbarSize="3dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="vertical"
+                android:scrollingCache="true"
+                android:smoothScrollbar="true" />
+
+        </LinearLayout>
 
 
         <Button

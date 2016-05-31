@@ -177,7 +177,6 @@ public class ViewBlipDialog extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
 
         replyText = (EditText)view.findViewById(R.id.editTextReply);
-
         image = (ImageView) view.findViewById(R.id.BlipImage);
         likeImage = (ImageView) view.findViewById(R.id.LikeImg);
         dislikeImage = (ImageView) view.findViewById(R.id.DislikeImg);
