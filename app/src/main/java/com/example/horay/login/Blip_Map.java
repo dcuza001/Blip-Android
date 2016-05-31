@@ -274,7 +274,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         searchCircle.setFillColor(Color.argb(100, 105, 190, 40));
 
         //Todo:
-        ref.child(childRefName).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child(childRefName).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot usersSnapshot) {
                 //Blip b = new Blip();
