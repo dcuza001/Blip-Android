@@ -1,14 +1,10 @@
-package com.example.horay.login;
-
-import com.google.firebase.database.GenericTypeIndicator;
+package com.Blipster.horay.Blip;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Ryota on 5/16/2016.

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.horay.login.ViewBlipDialog"
+    tools:context="com.Blipster.horay.Blip.ViewBlipDialog"
     >
 
 
@@ -194,7 +194,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/editTextReply"
             android:layout_alignBottom="@+id/replyButton"
-            android:layout_alignStart="@+id/listViewReplies"
             android:layout_toStartOf="@+id/replyButton" />
 
     </RelativeLayout>

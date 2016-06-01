@@ -1,4 +1,4 @@
-package com.example.horay.login;
+package com.Blipster.horay.Blip;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.Blipster.horay.Blip.R;
 
 /**
  * Created by Daniel on 5/3/2016.

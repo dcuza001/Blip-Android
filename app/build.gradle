@@ -5,11 +5,11 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.example.horay.login"
+        applicationId "com.Blipster.horay.Blip"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "0.01"
 
     }
     buildTypes {

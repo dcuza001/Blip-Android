@@ -1,4 +1,4 @@
-package com.example.horay.login;
+package com.Blipster.horay.Blip;
 
 /**
  * Created by Daniel on 4/27/2016.

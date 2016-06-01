@@ -1,4 +1,4 @@
-package com.example.horay.login;
+package com.Blipster.horay.Blip;
 
 import java.io.Serializable;
 

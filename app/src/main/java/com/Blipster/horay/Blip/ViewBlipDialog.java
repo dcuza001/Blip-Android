@@ -1,29 +1,24 @@
-package com.example.horay.login;
+package com.Blipster.horay.Blip;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Contacts;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.TwoLineListItem;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.Blipster.horay.Blip.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;

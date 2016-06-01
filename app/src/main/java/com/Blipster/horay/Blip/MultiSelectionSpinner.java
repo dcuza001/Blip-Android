@@ -1,4 +1,4 @@
-package com.example.horay.login;
+package com.Blipster.horay.Blip;
 
 import android.app.AlertDialog;
 import android.content.Context;
