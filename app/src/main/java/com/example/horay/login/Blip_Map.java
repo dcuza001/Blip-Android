@@ -274,7 +274,7 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         searchCircle.setFillColor(Color.argb(100, 105, 190, 40));
 
         //Todo:
-        ref.child(childRefName).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child(childRefName).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot usersSnapshot) {
                 //Blip b = new Blip();
@@ -367,6 +367,18 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
         };
 
         locationManager.requestLocationUpdates(provider, 1000, 0, locationListener);
+
+        if(location == null) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        }
+        if(location == null){
+            locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 1000, 0, locationListener);
+            location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+        }
+
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 

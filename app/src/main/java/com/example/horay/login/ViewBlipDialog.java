@@ -11,6 +11,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -167,10 +168,14 @@ public class ViewBlipDialog extends DialogFragment {
         blip = (Blip) bundle.getSerializable("BlipObj");
         username = (String)bundle.getSerializable("Username");
         view =  inflater.inflate(R.layout.fragment_view_blip, container, false);
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
 
 
         return view;
     }
+
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

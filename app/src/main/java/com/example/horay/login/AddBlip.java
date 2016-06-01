@@ -69,12 +69,13 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
         cameraPic.buildDrawingCache();
         Bitmap bitmap = cameraPic.getDrawingCache();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] data = baos.toByteArray();
 
         // Create a reference to 'images/mountains.jpg'
         StorageReference mountainImagesRef = storageRef.child("images/" + ID
-        + ".jpg");
+        + ".PNG");
 
         UploadTask uploadTask = mountainImagesRef.putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -174,7 +175,7 @@ public class AddBlip extends AppCompatActivity implements AdapterView.OnItemSele
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_PIC_REQUEST) {
-            if(data.getExtras().get("data") != null) {
+            if(data/*.getExtras().get("data")*/ != null) {
                 Bitmap image = (Bitmap) data.getExtras().get("data");
                 cameraPic.setImageResource(android.R.color.transparent);
                 cameraPic.setImageBitmap(image);
