@@ -589,8 +589,6 @@ public class Blip_Map extends AppCompatActivity implements OnMapReadyCallback, L
 
             // show it
             alertDialog.show();
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
